@@ -1,20 +1,24 @@
-TODO: EVERYTHING
 
+TODO:
+	Jack:
+		ShoppingCart.java
+		CD.java
+		Book.java
 
-**Sean , branch off on the master into your own branch named "sean"
-**everyone else will be doing the same thing
-
-Jack: 
-ShoppingCart
-CD
-Book
-
-Matt:
-User
-Audio
-Readable
-
-Sean:
-MP3
-eBook
-Item
+	Matt:
+		User.java
+		Audio.java
+		
+	Sean:
+		MP3.java
+		eBook.java
+		
+In Progress:
+	
+		Readable.java
+		- currently working for dev
+		- return of getInfo() has to be
+		reimplemented
+		
+Completed:
+		Item.java
