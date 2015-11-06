@@ -1,5 +1,5 @@
 public class ShoppingCart extends User {
-	private String[] content; //do with array instead?
+	private List<Item> contents = new ArrayList<Item>();
 		
 	public  String getContent() {
 		//more array?

@@ -10,7 +10,7 @@ public class Book extends Readable {
 
 	@Override
 	public int getPrice() {
-		return this.price; //still need envirotax, multiply by 1.02? and 1.13?
+		return Math.round((double)super.getPrice() * 1.02);
 	}
 
 	@Override
