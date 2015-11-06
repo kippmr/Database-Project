@@ -1,6 +1,7 @@
 public class ShoppingCart extends User {
-	private List<Item> contents = new ArrayList<Item>();
-		
+
+    protected List<Item> contents = new ArrayList<Item>();
+
 	public  String getContent() {
 		//more array?
 	}

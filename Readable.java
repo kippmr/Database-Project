@@ -3,15 +3,15 @@ public class Readable extends Item {
 
 	protected String title, authorName;
 	
-	public Readable(String sNo, String title, String authorName){
-		this.sNo = Integer.parseInt(sNo);
+	public Readable(int sNo, String title, String authorName){
+		this.sNo = sNo;
 		this.title = title;
 		this.authorName = authorName;
 	}
 
 	@Override
 	public int getPrice() {
-		return this.price;
+		return super.price;
 	}
 
     public String getInfo() {
@@ -19,6 +19,6 @@ public class Readable extends Item {
     }
 
     public String[] getInfoArray() { //supposed to be a string not string array? is this OK
-        return new String[]{sNo, title, authorName, type};
+        return new String[]{sNo, title, authorName};
     }
 }
