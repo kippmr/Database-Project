@@ -2,10 +2,11 @@
 public class Readable extends Item {
 
 	protected String authorName;
+	protected String name;
 	
 	@Override
 	public String getInfo() {
-		return sNo + " " + authorName;
+		return sNo + ", " + name + ", " + authorName;
 	}
 	
 	@Override
