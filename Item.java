@@ -1,4 +1,3 @@
-
 public abstract class Item {
 	
 	protected int price;
