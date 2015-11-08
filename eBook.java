@@ -1,20 +1,11 @@
 public class eBook extends Readable {
 
-	public eBook(String ebook){
-		//how do we want to do this?
+	public eBook(int sNo, String title, String authorName, int quantity, int price){
+		super(int sNo, String title, String authorName, int quantity, int price); 
 	}
 	
-	public void setQuant(int quant) { //however many are bought
-		this.quantity -= quant;
-	}
-
 	@Override
 	public int getPrice() {
-		return this.price; //still need envirotax, multiply by 1.02? and 1.13?
-	}
-
-	@Override
-	public String[] getInfo() { //[sNo, title, authorName, type]
-		return new String[] {String.parseString(this.sNo), title, authorName, type};
+		return this.price; //No envirotax
 	}
 }

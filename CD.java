@@ -1,20 +1,12 @@
 public class CD extends Audio {
 	
-	public CD(String cd){
-		//how do we want to do this?
-	}
-	
-	public void setQuant(int quant) { //however many are bought
-		this.quantity -= quant;
+	public CD(int sNo, String title, String artistName, int quantity, int price){ 
+		super(int sNo, String title, String artistName, int quantity, int price);
 	}
 
 	@Override
 	public int getPrice() {
-		return this.price; //still need envirotax, multiply by 1.02? and 1.13?
+		return (int)(super.getPrice() * 1.02); //still need envirotax, multiply by 1.02? and 1.13?
 	}
 
-	@Override
-	public String[] getInfo() { //[sNo, title, authorName, type]
-		return new String[] {String.parseString(this.sNo), title, artistName, type};
-	}
 }
