@@ -3,8 +3,8 @@ public class Readable extends Item {
 
 	protected String title, authorName;
 	
-	public Readable(int sNo, String title, String authorName){
-		this.sNo = sNo;
+	public Readable(String sNo, String title, String authorName){
+		this.sNo = Integer.parseInt(sNo);
 		this.title = title;
 		this.authorName = authorName;
 	}
@@ -19,6 +19,6 @@ public class Readable extends Item {
     }
 
     public String[] getInfoArray() { //supposed to be a string not string array? is this OK
-        return new String[]{sNo, title, authorName};
+        return new String[]{Integer.toString(sNo), title, authorName};
     }
 }

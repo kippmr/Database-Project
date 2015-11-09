@@ -1,15 +1,11 @@
 public class Book extends Readable {
 	
-	protected int price;
+	protected int price, quant;
 
-	public Book(int sNo, String title, String authorName, int price){
+	public Book(String sNo, String title, String authorName, String price, String quant){
 		super(sNo,title,authorName);
-		this.price = price;
-		//how do we want to do this?
-	}
-
-	public void setQuant(int quant) { //however many are bought
-		
+		this.price = Integer.parseInt(price);
+		this.quant = Integer.parseInt(quant);
 	}
 
 	@Override
@@ -17,7 +13,23 @@ public class Book extends Readable {
 		return (int)Math.round((double)super.getPrice() * 1.02);
 	}
 
-	public String[] getInfoArray() { //[sNo, title, authorName, type]
-		return new String[] {Integer.toString(super.sNo), title, authorName};
+	@Override
+	public String getInfo() {
+		return super.getInfo + "," + price + "," + quant; 
 	}
+
+	@Override
+	public String[] getInfoArray() { //[sNo, title, authorName, type]
+		return new String[] {Integer.toString(sNo), title, authorName, type, Integer.toString(price), Integer.toString(quant)};
+	}
+
+
+	public int getQuant() {
+		return quant;
+	}
+	public int setQuant(int quant) { //however many are bought
+		return (this.quant = quant);
+	}
+
+
 }
