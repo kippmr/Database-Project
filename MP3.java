@@ -17,6 +17,11 @@ public class MP3 extends Audio {
 		return super.getPrice(); //still need envirotax, multiply by 1.02? and 1.13?
 	}
 
+	public int getPriceR() {
+		return super.getPrice();
+	}
+
+
 	@Override 
 	public int getInfo() {
 		return super.getInfo() + "," + price + "," + quant;

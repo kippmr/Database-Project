@@ -23,7 +23,7 @@ public class eBook extends Readable {
 	}
 
 	@Override
-	public String[] getInfoArray() { //[sNo, title, authorName, type]
+	public String[] getInfoArray() { 
 		return new String[] {Integer.toString(sNo), title, authorName, type, Integer.toString(price), Integer.toString(quant)};
 	}
 
@@ -31,7 +31,7 @@ public class eBook extends Readable {
 		return quant;
 	}
 	
-	public void setQuant(int quant) { //however many are bought
+	public void setQuant(int quant) { 
 		this.quant = quant;
 	}
 
