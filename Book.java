@@ -1,10 +1,9 @@
 public class Book extends Readable {
 	
-	protected int price, quant;
+	protected int quant;
 
 	public Book(String sNo, String title, String authorName, String price, String quant){
-		super(sNo,title,authorName);
-		this.price = Integer.parseInt(price);
+		super(sNo,title,authorName,price);
 		this.quant = Integer.parseInt(quant);
 	}
 
@@ -19,14 +18,13 @@ public class Book extends Readable {
 
 	@Override
 	public String getInfo() {
-		return super.getInfo + "," + price + "," + quant; 
+		return super.getInfo + "," + quant; 
 	}
 
 	@Override
 	public String[] getInfoArray() { //[sNo, title, authorName, type]
 		return new String[] {Integer.toString(sNo), title, authorName, type, Integer.toString(price), Integer.toString(quant)};
 	}
-
 
 	public int getQuant() {
 		return quant;

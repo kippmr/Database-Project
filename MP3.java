@@ -1,10 +1,9 @@
 public class MP3 extends Audio {
 	
-	protected int price, quant;
+	protected int quant;
 
 	public MP3(String sNo, String title, String artistName, String price, String quant){
-		super(sNo,title,artistName);
-		this.price = Integer.parseInt(price);
+		super(sNo,title,artistName,price);
 		this.quant = Integer.parseInt(quant);
 	}
 	
@@ -21,10 +20,9 @@ public class MP3 extends Audio {
 		return super.getPrice();
 	}
 
-
 	@Override 
 	public int getInfo() {
-		return super.getInfo() + "," + price + "," + quant;
+		return super.getInfo() + "," + quant;
 	}
 
 	@Override

@@ -1,10 +1,9 @@
 public class eBook extends Readable {
 
-	protected int price, quant;
+	protected int quant;
 
 	public eBook(String sNo, String title, String authorName, String price, String quant){
-		super(sNo, title, authorName);
-		this.price = Integer.parseInt(price);
+		super(sNo, title, authorName,price);
 		this.quant = Integer.parseInt(quant);
 	}
 
@@ -19,7 +18,7 @@ public class eBook extends Readable {
 
 	@Override
 	public String getInfo() {
-		return super.getInfo + "," + price + "," + quant; 
+		return super.getInfo + "," + quant; 
 	}
 
 	@Override

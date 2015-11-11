@@ -1,10 +1,9 @@
 public class CD extends Audio {
 	
-	protected int price, quant;
+	protected int quant;
 
 	public CD(String sNo, String title, String artistName, String price, String quant){
-		super(sNo,title,artistName);
-		this.price = Integer.parseInt(price);
+		super(sNo,title,artistName,price);
 		this.quant = Integer.parseInt(quant);
 	}
 	
@@ -19,7 +18,7 @@ public class CD extends Audio {
 
 	@Override 
 	public int getInfo() {
-		return super.getInfo() + "," + price + "," + quant;
+		return super.getInfo() + "," + quant;
 	}
 
 	@Override
