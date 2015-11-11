@@ -1,20 +1,22 @@
-import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
+import java.io*;
+import java.lang*;
+import java.util*;
 
-public class UserInterface{
-	private int choose, currentPage, quantity; //Option chosen for switching pages, page number, quantity
-	private String file, user; //current file name, current user
+public class UserInterface {
+	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); //object for user's input
+	User user = new User(); //object for the user
+	private int currentPage, quantity; //page number, quantity
+	private String currentUser = ""; //current user
+	private String choose = ""; //stores user input
+	private ArrayList<String> audio = new  ArrayList<String>(); //ArrayList for audio
+	private ArrayList<String> readables = new  ArrayList<String>(); //ArrayList for readables
 
-	private Scanner text;
-	private Scanner num;
+	boolean boolOption = false; //check if the entered option is valid
+	boolean boolSNo = false; //check if the entered sNo is valid
+	boolean boolQuantity = false; //check if the quantity is valid
 
-	public UserInterface()
-	{
-		textIn = new Scanner(System.in);
-		numIn = new Scanner(System.in);
-		file = "Users.txt";
+	public UserInterface() {
+		user.makeSC(); //make the users shopping cart
 		currentPage = 1;
 	}
 
@@ -41,6 +43,8 @@ public class UserInterface{
 				p9();
 			} else if (currentPage == 10) {
 				p10();
+			} else if (currentPage == 11) {
+				p11();
 			} else { 
 				p1();
 			}
@@ -49,99 +53,180 @@ public class UserInterface{
 
 	private void p1() {
 		//**Page No. 1! Where a user either (1) signs in or (2) signs up**//
-		do {
-			System.out.println("1.Sign in\n2.Sign up\n\nChoose your Option: ");
-			choose = numIn.nextInt();
-			if (choose == 1) {
-				System.out.println("\nEnter your username: ");
-				user = text.next();
-				
-				if (checkUser(user)) {
-					currentPage = 3; //
-				} else {
-					currentPage = 4; //
-				}
+		System.out.println("1.Sign in
+			\n2.Sign up
+			\n\nChoose your Option: "); //display options to user
+		choose = userInput(); //get the selected option
+		if (choose.equals("1")) { //the user chooses 1
+			System.out.println("Enter your username: "); //ask for a username
+			user = getInput(); //get the username 
+			
+			if (user.checkUser(user)) { //check if the username exists
+				currentPage = 3; //proceed to page 4
+			} else { //if the username does not exist
+				currentPage = 4; //proceed to page 4
 			}
-			else if (choose == 2) {
-				currentPage = 2; //Sign-up page
 			}
-		} while (choose != 1 || choose != 2); //User needs to choose option 1 or 2!
+		else if (choose.equals("2")) { //the user chooses 2
+			currentPage = 2; //proceed to page 2
+		} else { //the user does not choose a valid option
+			currentPage = 1; //repeat page 1
+		}
 	}
 
 	private void p2() {
 		//**Page No. 2! User types in a Username and check for validity**//
-		System.out.println("\nChoose your username: ");
-		user = text.next();
+		System.out.println("Choose your username: ");
+		currentUser = userInput();
 
-		//TODO: check for already existing username
-
-		if (addUser(user)) {
-			System.out.println("\nUsername successfully added.");
-			currentPage = 1;
-		} else {
-			System.out.println("\nUsername not added");
+		if (user.addUser(currentUser)) { //check for already existing username
+			System.out.println("Username successfully added."); //tell user input was successful
+			currentPage = 1; //go back to page 1
+		} else { //username already exists
+			System.out.println("Username not added"); //tell user input was unsuccessful
+			currentPage = 2; //repeat page 2
 		}
 	}
 
 	private void p3() {
 		//**Page No. 3! A friendly greeting**//
-		currentPage = 5;
-		System.out.println("\nHello Mr. " + user);
+		System.out.println("Hello Mr. " + user + "\n"); //greet the user
+		currentPage = 5; //proceed to page 5
 	}
 
 	private void p4() {
 		//**Page No. 4! Seems like you didn't make the cut**//
+		System.out.println("No Access\n"); //tell user 
 		currentPage = 1;
-		System.out.println("\nNo Access\n");
 	}
 
 	private void p5() {
 		//**Page No. 5! User can (1) view items (2) view cart or (3) sign out**//
-		do {
-			System.out.println("\n1.View Items By Catagory\n2.View Shopping Cart\n3.Sign Out\n\nChoose your option: ");
-			choose = num.nextInt();
+			System.out.println("1.View Items By Catagory
+				\n2.View Shopping Cart
+				\n3.Sign Out
+				\n\nChoose your option: "); //display options to user
+			choose = userInput(); //get the selected option
 
-			if (choose == 1) {
-				currentPage = 6;
-			} else if (choose == 2) {
-				currentPage = 7;
-			} else if (choose == 3) {
-				currentPage = 1;
+			if (choose.equals("1")) { //user chooses 1
+				currentPage = 6; //proceed to page 6
+			} else if (choose.equals("2")) { //user chooses 2
+				currentPage = 7; //proceed to page 7
+			} else if (choose.equals("3")) { //user chooses 3
+				currentPage = 1; //go back to page 1
+			} else { //user does not choose a valid option
+				currentPage = 5; //repeat page 5
 			}
-		} while (choose !=1 || choose !=2 || choose !=3);
 	}
 
 	private void p6() {
 		//**Page No. 6! User can (1) view readables (2) view audio or (-1) return**//
-		do {
-			System.out.println("1.Readables\n2.Audio\n\nChoose your option: ");
-			choose = num.nextInt();
-			System.out.println("\n\nPress -1 to return to previous menu");
+		System.out.println("1.Readables
+			\n2.Audio
+			\nPress -1 to return to previous menu
+			\n\nChoose your option: "); //display options to user
+		choose = userInput(); //get the selected option
 
-			if (choose==1) {
-				currentPage = 8;
-			} else if (choose == 2) {
-				currentPage = 9;
-			} else if (choose == -1) {
-				currentPage = 5;
+		if (choose.equals("1")) { //user chooses 1
+			currentPage = 8; //proceed to page 8
+		} else if (choose.equals("2")) { //user chooses 2
+			currentPage = 9; //proceed to page 9
+		} else if (choose.equals("-1")) { //user chooses -1
+			currentPage = 5; //go back to page 5
+		} else { //user does not choose a valid option
+			currentPage = 6 //repeat page 6
+		}
+	}
+
+	private void p7(){
+		//**Page No. 7! User is viewing their cart.txt file!**//
+
+		//open cart.txt file and list its contents, numbering each one
+		currentPage = 5;
+	}
+
+	private void p8(){
+		//**Page No. 8! User is viewing readables. Numbers equal sNo's,**//
+		//**selecting one will request a quantity. (-1) goes back a menu**//
+		
+		System.out.println("Readables:\n"); //display readables
+
+		// S.No | Name of Book | Author | Price($) | Quantity in Store | Type
+		//TODO: display list of readables to user
+
+		boolSNo = false; //reset for loop
+		do { //loop until sNo is valid, or -1
+			System.out.println("Press -1 to return to previous menu.
+				\nChoose your option: "); //display options to user
+			choose = userInput(); //get user input
+
+			//check for valid sNo
+			if (choose.equals("-1")) { //if the user chooses -1
+				currentPage = 6; //go back to page 6
+				boolSNo = true; //valid option selected
+
+			} else if (user.checkSNo(Integer.parseInt(choose))) { //check if the number enetered is a sNo
+				boolSNo = true; //valid sNo selected
+
+				boolQuantity = false; //reset for loop
+				do { //loop until quantity is valid
+					System.out.println("Enter quantity: "); //ask for quantity
+					quantity = Integer.parseInt(userInput()); //get user input for quantity
+
+					if (user.checkQuantity(quantity)) { //check for valid quantity
+						boolQuantity = true; //valid quantity selected
+
+						//TODO: append item to cart
+
+						boolOption = false; //reset for loop
+						do { //loop until valid answer is chosen
+							System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
+							choose = userInput(); //get user input
+
+							if (choose.equals("-2")) { //user chooses option -2
+								boolOption = true; //valid option selected
+								currentPage = 6; //go back to page 6
+							} else if (choose.equals("0")) { //user chooses option 0
+								boolOption = true; //valid option selected
+								currentPage = 10; //proceed to page 10
+							}
+						} while (!boolOption); //while the option is invalid
+
+					} else { //selected invalid amount of product
+						System.out.println("Selected Quantity not Available."); //alert user to error
+					}
+				} while (!boolQuantity); //while quantity is invalid
+
+			} else { //selected invalid sNo
+				System.out.println("Selected Seriel Number not Available.") //alert user to error
 			}
-		} while(choose != (-1) || choose != 1 || choose != 2);
-	}
-
-	private void p7() {
-		
-	}
-
-	private void p8() {
-		
+		} while (!boolSNo); //while sNo is invalid (or not -1)
 	}
 
 	private void p9() {
-		
+		//**Page No. 9! User is viewing Audio. Numbers equal sNo's,**//
+		//**selecting one will request a quantity. (-1) goes back a menu**//
+
+		//TODO: copy/paste from p8()
+
 	}
 
-	private void p10() {
-		
+	private void p10( ) {
+		//**Page No. 10! User's Billing Info, yes/no comformation and given an ID**//
+
+		System.out.println("Billing Information:");
+		//Name | *Percentages* | Quantity | Price
+
+		System.out.println("Are you sure you want to pay? yes or no. ");
+		if (userInput().toLowerCase().equals(("yes"))) {
+			System.out.println("Comfirmation ID: " + comfirmID + 
+				"\nItems shipped to: Mr." + currentUser);
+		}
+	}
+
+	private void p11() {
+		//**Page No. 11!**//
+
 	}
 
 
@@ -154,28 +239,70 @@ public class UserInterface{
 	}
 
 	public int changeCurrentPage(int page) {
-		currentPage = page;
 		return page;
 	}
 
-	//public void getReadables();
-	//public void showReadables();
-	//public void showAudioProducts();
+	public void getReadables() {
+		//fetch all readables from the files and place them in the readables array
 
-	private boolean addUser(String userName) {
-		try {
-			FileWriter fw = new FileWriter(fileName);
-			BufferedWriter bw = new BufferedWriter(fw);
+		BufferedReader reader = new BufferedReader(new FileReader("Book.txt"));
 
-			bw.newLine();
-			bw.write(user);
-			bw.close();
-
-			return true;
-		} catch(IOException e) {
-			System.out.println("Error to " + fileName);
-			return false;
+		while (true) {
+			String line = reader.readLine();
+			if (line == null) {
+				break;
+			}
+			readables.add(line);
 		}
-		return false;
+		reader.close();
+
+		reader = new BufferedReader(new FileReader("eBook.txt"));
+
+		while (true) {
+			String line = reader.readLine();
+			if (line == null) {
+				break;
+			}
+			readables.add(line);
+		}
+		reader.close();
+	}
+
+	public void getAudioProducts() {
+		//fetch all audio products from the files and place them in the audioProducts array
+		
+		BufferedReader reader = new BufferedReader(new FileReader("MP3.txt"));
+
+		while (true) {
+			String line = reader.readLine();
+			if (line == null) {
+				break;
+			}
+			audioProducts.add(line);
+		}
+		reader.close();
+
+		reader = new BufferedReader(new FileReader("CD.txt"));
+
+		while (true) {
+			String line = reader.readLine();
+			if (line == null) {
+				break;
+			}
+			audioProducts.add(line);
+		}
+		reader.close();
+	}
+
+	public void showReadables() {
+		//display all readables for browsing
+	}
+
+	public void showAudioProducts() {
+		//display all audio products for browsing
+	}
+
+	public String userInput() {
+		return stung.readLine(); //return what the user types into the prompt
 	}
 }
