@@ -13,9 +13,13 @@ public class eBook extends Readable {
 		return super.getPrice();
 	}
 
+	public int getPriceR() {
+		return super.getPrice();
+	}
+
 	@Override
 	public String getInfo() {
-		return super.getInfo + ", " + 
+		return super.getInfo + "," + price + "," + quant; 
 	}
 
 	@Override

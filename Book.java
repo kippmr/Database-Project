@@ -13,6 +13,10 @@ public class Book extends Readable {
 		return (int)Math.round((double)super.getPrice() * 1.02);
 	}
 
+	public int getPriceR() {
+		return super.getPrice();
+	}
+
 	@Override
 	public String getInfo() {
 		return super.getInfo + "," + price + "," + quant; 

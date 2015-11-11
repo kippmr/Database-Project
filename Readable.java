@@ -15,7 +15,7 @@ public class Readable extends Item {
 	}
 
     public String getInfo() {
-        return sNo + ", " + title + ", " + authorName;
+        return sNo + "," + title + "," + authorName;
     }
 
     public String[] getInfoArray() { //supposed to be a string not string array? is this OK
