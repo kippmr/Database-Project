@@ -1,15 +1,20 @@
 
---Updated--
+--Matt's Uprising--
 
 Matt:
-	- implementing User parent and child classes
-	- working on the kipp branch
+	- implementing UserInterface
+	- crying because he has no ShoppingCart functions
+	- sean pls
+	- working in kipp branch, even though he pushed shit everywhere
 	
 Sean:
-	- Contribute to User's Child Classes
-	- doesn't matter which branch you work on
+	- Missing In Action
+	- Where has he been since Novemeber 6th?
+	- Assume sucking his own dick
+	- hopfully he does ShoppingCart class
+	- working in sean branch
 	
 Jack:
-	- implement Readable and Audio classes because they
-	are nearly identical 
-	- working on the dev branch first, then branching into a new branch
+	- Assumed to be mad at Matt because he pushed his shit all over the place
+	- Implemented eBook, Book, MP3, CD, Readable, Audio classes
+	- working in dev branch, then branching off to his own
