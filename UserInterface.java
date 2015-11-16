@@ -1,14 +1,14 @@
-import java.io*;
-import java.lang*;
-import java.util*;
+import java.io.*;
+import java.lang.*;
+import java.util.*;
 
 public class UserInterface {
 	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); //object for user's input
 	User user = new User(); //object for the user
-	private int currentPage, quantity; //page number, quantity
+	private int currentPage, quantity, sNo, cNo; //page number, quantity
 	private String currentUser = ""; //current user
 	private String choose = ""; //stores user input
-	private ArrayList<String> audio = new  ArrayList<String>(); //ArrayList for audio
+	private ArrayList<String> audioProducts = new  ArrayList<String>(); //ArrayList for audio
 	private ArrayList<String> readables = new  ArrayList<String>(); //ArrayList for readables
 
 	boolean boolOption = false; //check if the entered option is valid
@@ -53,13 +53,13 @@ public class UserInterface {
 
 	private void p1() {
 		//**Page No. 1! Where a user either (1) signs in or (2) signs up**//
-		System.out.println("1.Sign in
-			\n2.Sign up
-			\n\nChoose your Option: "); //display options to user
+		System.out.println("1.Sign in"
+				+ "\n2.Sign up"
+				+ "\n\nChoose your Option: "); //display options to user
 		choose = userInput(); //get the selected option
 		if (choose.equals("1")) { //the user chooses 1
 			System.out.println("Enter your username: "); //ask for a username
-			user = getInput(); //get the username 
+			user = userInput(); //get the username 
 			
 			if (user.checkUser(user)) { //check if the username exists
 				currentPage = 3; //proceed to page 4
@@ -90,7 +90,7 @@ public class UserInterface {
 
 	private void p3() {
 		//**Page No. 3! A friendly greeting**//
-		System.out.println("Hello Mr. " + user + "\n"); //greet the user
+		System.out.println("Hello Mr. " + currentUser + "\n"); //greet the user
 		currentPage = 5; //proceed to page 5
 	}
 
@@ -102,10 +102,10 @@ public class UserInterface {
 
 	private void p5() {
 		//**Page No. 5! User can (1) view items (2) view cart or (3) sign out**//
-			System.out.println("1.View Items By Catagory
-				\n2.View Shopping Cart
-				\n3.Sign Out
-				\n\nChoose your option: "); //display options to user
+			System.out.println("1.View Items By Catagory"
+					+ "\n2.View Shopping Cart"
+					+ "\n3.Sign Out"
+					+ "\n\nChoose your option: "); //display options to user
 			choose = userInput(); //get the selected option
 
 			if (choose.equals("1")) { //user chooses 1
@@ -121,10 +121,10 @@ public class UserInterface {
 
 	private void p6() {
 		//**Page No. 6! User can (1) view readables (2) view audio or (-1) return**//
-		System.out.println("1.Readables
-			\n2.Audio
-			\nPress -1 to return to previous menu
-			\n\nChoose your option: "); //display options to user
+		System.out.println("1.Readables"
+				+ "\n2.Audio"
+				+ "\nPress -1 to return to previous menu"
+				+ "\n\nChoose your option: "); //display options to user
 		choose = userInput(); //get the selected option
 
 		if (choose.equals("1")) { //user chooses 1
@@ -134,7 +134,7 @@ public class UserInterface {
 		} else if (choose.equals("-1")) { //user chooses -1
 			currentPage = 5; //go back to page 5
 		} else { //user does not choose a valid option
-			currentPage = 6 //repeat page 6
+			currentPage = 6; //repeat page 6
 		}
 	}
 
@@ -156,8 +156,8 @@ public class UserInterface {
 
 		boolSNo = false; //reset for loop
 		do { //loop until sNo is valid, or -1
-			System.out.println("Press -1 to return to previous menu.
-				\nChoose your option: "); //display options to user
+			System.out.println("Press -1 to return to previous menu."
+					+ "\nChoose your option: "); //display options to user
 			choose = userInput(); //get user input
 
 			//check for valid sNo
@@ -198,7 +198,7 @@ public class UserInterface {
 				} while (!boolQuantity); //while quantity is invalid
 
 			} else { //selected invalid sNo
-				System.out.println("Selected Seriel Number not Available.") //alert user to error
+				System.out.println("Selected Seriel Number not Available."); //alert user to error
 			}
 		} while (!boolSNo); //while sNo is invalid (or not -1)
 	}
@@ -219,7 +219,7 @@ public class UserInterface {
 
 		System.out.println("Are you sure you want to pay? yes or no. ");
 		if (userInput().toLowerCase().equals(("yes"))) {
-			System.out.println("Comfirmation ID: " + comfirmID + 
+			System.out.println("Comfirmation ID: " + cNo + 
 				"\nItems shipped to: Mr." + currentUser);
 		}
 	}
