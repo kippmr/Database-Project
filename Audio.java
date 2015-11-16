@@ -1,20 +1,21 @@
 //Comma-Separated-File: sNo, title, artistName, price, quantity
 public class Audio extends Item {
 
-	protected String title, artistName, quantity, type;
-
-	public Audio(String sNo, String title, String artistName, String price, String quantity, String type) {
-		
+	protected String title, artistName;
+	protected int price;
+	public Audio(String sNo, String title, String artistName, String price) {
 		this.sNo = Integer.parseInt(sNo);
 		this.title = title;
 		this.artistName = artistName;
-		this.price = Integer.parseInt(price);
-		this.quantity = Integer.parseInt(quantity);
-		this.type = type;
+		this.price;
 	}
 
-	public String[] getInfo() { //supposed to be a string not string array? is this OK
-		return new String[]{sNo, title, artistName, type};
+	public String getInfo() {
+		return sNo + "," + title + "," artistName + "," + price;
+	}
+
+	public String[] getInfoArray() { //supposed to be a string not string array? is this OK
+		return new String[]{Integer.toString(sNo), title, artistName, Integer.toString(price)};
 	}
 
 	@Override

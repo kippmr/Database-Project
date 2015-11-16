@@ -1,20 +1,37 @@
 public class Book extends Readable {
 	
-	public Book(String book){
-		//how do we want to do this?
-	}
+	protected int quant;
 
-	public void setQuant(int quant) { //however many are bought
-		this.quantity -= quant;
+	public Book(String sNo, String title, String authorName, String price, String quant){
+		super(sNo,title,authorName,price);
+		this.quant = Integer.parseInt(quant);
 	}
 
 	@Override
 	public int getPrice() {
-		return this.price; //still need envirotax, multiply by 1.02? and 1.13?
+		return (int)Math.round((double)super.getPrice() * 1.02);
+	}
+
+	public int getPriceR() {
+		return super.getPrice();
 	}
 
 	@Override
-	public String[] getInfo() { //[sNo, title, authorName, type]
-		return new String[] {String.parseString(this.sNo), title, authorName, type};
+	public String getInfo() {
+		return super.getInfo + "," + quant; 
 	}
+
+	@Override
+	public String[] getInfoArray() { //[sNo, title, authorName, type]
+		return new String[] {Integer.toString(sNo), title, authorName, type, Integer.toString(price), Integer.toString(quant)};
+	}
+
+	public int getQuant() {
+		return quant;
+	}
+	public int setQuant(int quant) { //however many are bought
+		return (this.quant = quant);
+	}
+
+
 }
