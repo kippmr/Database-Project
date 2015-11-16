@@ -10,9 +10,10 @@ Matt:
 Sean:
 	- Missing In Action
 	- Where has he been since Novemeber 6th?
-	- Assume sucking his own dick
+	- Assume sucking his own dick 
 	- hopfully he does ShoppingCart class
 	- working in sean branch
+	- yes
 	
 Jack:
 	- Assumed to be mad at Matt because he pushed his shit all over the place
