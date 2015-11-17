@@ -1,6 +1,8 @@
-public class User{
+public class User {
 	private String username;
-	public String getUsername(...){
-		//stores the username
+	
+	//Returns username of user
+	public String getUsername(){
+		return this.username;
 	}
 }
