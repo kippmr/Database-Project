@@ -141,7 +141,7 @@ public class UserInterface {
 	private void p7(){
 		//**Page No. 7! User is viewing their cart.txt file!**//
 
-		//open cart.txt file and list its contents, numbering each one
+		//open cart.txt file and list its contents
 		currentPage = 5;
 	}
 
@@ -296,10 +296,14 @@ public class UserInterface {
 
 	public void showReadables() {
 		//display all readables for browsing
+
+		
 	}
 
 	public void showAudioProducts() {
 		//display all audio products for browsing
+
+		
 	}
 
 	public String userInput() {
