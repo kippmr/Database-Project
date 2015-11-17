@@ -5,12 +5,17 @@ import java.util.*;
 public class UserInterface {
 	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); //object for user's input
 
-	private int currentPage, quantity, sNo, cNo; //page number, quantity
+	private int currentPage, quantity; //page number, quantity
+	private String cID = ""; //confirmation ID
+	private String sNo = ""; //serial number
 	private String currentUser = ""; //current user
 	private String choose = ""; //stores user input
 	private ArrayList<String> audioProducts = new  ArrayList<String>(); //ArrayList for audio
 	private ArrayList<String> readables = new  ArrayList<String>(); //ArrayList for readables
 	private ArrayList<String> users = new  ArrayList<String>(); //ArrayList for readables
+
+	//TODO: initialize user object, currently doing it through user class
+	User userO; //object for the user
 
 	boolean boolOption = false; //check if the entered option is valid
 	boolean boolSNo = false; //check if the entered sNo is valid
@@ -24,7 +29,7 @@ public class UserInterface {
 		getUsers();
 	}
 
-	public void mainLoop() {
+	public static void mainLoop() {
 		/**function to loop and use a switch statment to change the page to whichever page the user is on**/
 		while(true) { //is forever really such a good idea?
 			if (currentPage == 1) {
@@ -69,6 +74,9 @@ public class UserInterface {
 			//TODO: check if the username is exists, currently doing it through user class
 			if (User.checkUser(currentUser)) { //check if the username exists
 
+				//TODO: create user object using getUser in user class
+				userO = User.getUser(currentUser);
+
 				currentPage = 3; //proceed to page 4
 			} else { //if the username does not exist
 				currentPage = 4; //proceed to page 4
@@ -87,9 +95,12 @@ public class UserInterface {
 		currentUser = userInput();
 
 		//TODO: check if username is not taken and add it, currently doing it through user class
-		if (user.checkUser(currentUser)) { //check for already existing username
+		if (User.checkUser(currentUser)) { //check for already existing username
 
+			//TODO: add user to user.txt, currerntly doing it through user class
 			User.addUser(currentUser);
+			users.add(currentUser);
+
 			System.out.println("Username successfully added."); //tell user input was successful
 			currentPage = 1; //go back to page 1
 		} else { //username already exists
@@ -106,8 +117,8 @@ public class UserInterface {
 
 	private void p4() {
 		//**Page No. 4! Seems like you didn't make the cut**//
-		System.out.println("No Access\n"); //tell user 
-		currentPage = 1;
+		System.out.println("No Access\n"); //tell user no access
+		currentPage = 1; //go back to page 1
 	}
 
 	private void p5() {
@@ -149,9 +160,11 @@ public class UserInterface {
 	}
 
 	private void p7(){
-		//**Page No. 7! User is viewing their cart.txt file!**//
+		//**Page No. 7! User is viewing their Cart_USERNAME.txt file!**//
 
-		//open cart.txt file and list its contents
+		//TODO: open Cart_USERNAME.txt file and list its contents, comma-separated
+		ShoppingCart.getContent();
+
 		currentPage = 5;
 	}
 
@@ -175,45 +188,41 @@ public class UserInterface {
 				currentPage = 6; //go back to page 6
 				boolSNo = true; //valid option selected
 
-			//TODO: check if sNo exists, currently doing it through user class
-			} else if (user.checkSNo(Integer.parseInt(choose))) { //check if the number enetered is a sNo
+			//TODO: check if sNo exists, currently doing it through ui class
+			} else if (checkSNo(choose)) { //check if the number enetered is a sNo
 
-				sNo = Integer.parseInt(choose); //assign sNo to variable
+				sNo = choose; //assign sNo to variable
 				boolSNo = true; //valid sNo selected
 
-				boolQuantity = false; //reset for loop
-				do { //loop until quantity is valid
-					System.out.println("Enter quantity: "); //ask for quantity
-					quantity = Integer.parseInt(userInput()); //get user input for quantity
+				System.out.println("Enter quantity: "); //ask for quantity
+				quantity = Integer.parseInt(userInput()); //get user input for quantity
 
-					//TODO: check is there is enough quantity of the sNo, currently doing it through user class
-					if (user.checkQuantity(quantity, sNo)) { //check for valid quantity
+				//TODO: check is there is enough quantity of the sNo, currently doing it through shoppingcart class
+				if (ShoppingCart.checkQuantity(quantity, sNo)) { //check for valid quantity
 
-						boolQuantity = true; //valid quantity selected
+					//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
-						//TODO: append item to cart
+					boolOption = false; //reset for loop
+					do { //loop until valid answer is chosen
+						System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
+						choose = userInput(); //get user input
 
-						boolOption = false; //reset for loop
-						do { //loop until valid answer is chosen
-							System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
-							choose = userInput(); //get user input
+						if (choose.equals("-2")) { //user chooses option -2
+							boolOption = true; //valid option selected
+							currentPage = 6; //go back to page 6
+						} else if (choose.equals("0")) { //user chooses option 0
+							boolOption = true; //valid option selected
+							currentPage = 10; //proceed to page 10
+						}
+					} while (!boolOption); //while the option is invalid
 
-							if (choose.equals("-2")) { //user chooses option -2
-								boolOption = true; //valid option selected
-								currentPage = 6; //go back to page 6
-							} else if (choose.equals("0")) { //user chooses option 0
-								boolOption = true; //valid option selected
-								currentPage = 10; //proceed to page 10
-							}
-						} while (!boolOption); //while the option is invalid
-
-					} else { //selected invalid amount of product
-						System.out.println("Selected Quantity not Available."); //alert user to error
-					}
-				} while (!boolQuantity); //while quantity is invalid
+				} else { //selected invalid amount of product
+					System.out.println("Selected Quantity not Available."); //alert user to error
+					currentPage = 8 //repeat page 6
+				}
 
 			} else { //selected invalid sNo
-				System.out.println("Selected Seriel Number not Available."); //alert user to error
+				System.out.println("Selected Serial Number not Available."); //alert user to error
 			}
 		} while (!boolSNo); //while sNo is invalid (or not -1)
 	}
@@ -242,6 +251,7 @@ public class UserInterface {
 	private void p11() {
 		//**Page No. 11!**//
 
+		//TODO: for bonus
 	}
 
 
@@ -285,6 +295,8 @@ public class UserInterface {
 
 	public void getAudioProducts() {
 		//fetch all audio products from the files and place them in the audioProducts array
+
+		//TODO: make the array list for Item objects instead of strings
 		
 		BufferedReader reader = new BufferedReader(new FileReader("MP3.txt"));
 
@@ -311,6 +323,8 @@ public class UserInterface {
 
 	public void getUsers() {
 		//fetch all users from the files and place them in the users array
+
+		//TODO: make the array list for Item objects instead of strings
 		
 		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
 
@@ -325,18 +339,22 @@ public class UserInterface {
 	}
 
 	public void showReadables() {
-		//display all readables for browsing
+		//TODO: display all readables for browsing, needs formatting: see assignment
 
 		
 	}
 
 	public void showAudioProducts() {
-		//display all audio products for browsing
+		//TODO: display all audio products for browsing, needs formatting: see assignment
 
 		
 	}
 
 	public String userInput() {
 		return stung.readLine(); //return what the user types into the prompt
+	}
+
+	public boolean checkSNo(String str) {
+		//TODO: check if the sNo exists, wait until audioProducts and readables ArrayLists are for Items
 	}
 }

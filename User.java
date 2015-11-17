@@ -1,17 +1,12 @@
 public class User {
 	private String username;
 	
-<<<<<<< .merge_file_a07496
-	//Returns username of user
-	public String getUsername(){
-		return this.username;
-=======
 	public User(String uName) {
 		this.username = uName
 	}
 	
 	//Returns username of user
-	public String getUsername(...){
+	public String getUsername(...) {
 		return this.username;
 	}
 	
@@ -31,7 +26,6 @@ public class User {
 	//Create a user 
 	public static User addUser (String uName) {
 		User u = new Shoppingcart(uName) 
->>>>>>> .merge_file_a07288
 	}
 	
 	
