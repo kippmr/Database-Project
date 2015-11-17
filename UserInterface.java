@@ -242,9 +242,14 @@ public class UserInterface {
 		//Name | *Percentages* | Quantity | Price
 
 		System.out.println("Are you sure you want to pay? yes or no. ");
-		if (userInput().toLowerCase().equals(("yes"))) {
+		choose = userInput().toLowerCase();
+
+		if (choose.equals(("yes"))) {
 			System.out.println("Comfirmation ID: " + cNo + 
 				"\nItems shipped to: Mr." + currentUser);
+		} else {
+			System.out.println("Going back to main menu");
+			currentPage = 5;
 		}
 	}
 
