@@ -4,7 +4,10 @@ import java.util.*;
 
 public class UserInterface {
 	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); //object for user's input
+
+	//TODO: create user object, currently doing it through user class
 	User user = new User(); //object for the user
+
 	private int currentPage, quantity, sNo, cNo; //page number, quantity
 	private String currentUser = ""; //current user
 	private String choose = ""; //stores user input
@@ -16,7 +19,10 @@ public class UserInterface {
 	boolean boolQuantity = false; //check if the quantity is valid
 
 	public UserInterface() {
+
+		//TODO: make shopping cart object, currently doing it through user class
 		user.makeSC(); //make the users shopping cart
+
 		currentPage = 1;
 	}
 
@@ -59,9 +65,12 @@ public class UserInterface {
 		choose = userInput(); //get the selected option
 		if (choose.equals("1")) { //the user chooses 1
 			System.out.println("Enter your username: "); //ask for a username
-			user = userInput(); //get the username 
+			currentUser = userInput(); //get the username 
 			
-			if (user.checkUser(user)) { //check if the username exists
+
+			//TODO: check if the username is exists, currently doing it through user class
+			if (user.checkUser(currentUser)) { //check if the username exists
+
 				currentPage = 3; //proceed to page 4
 			} else { //if the username does not exist
 				currentPage = 4; //proceed to page 4
@@ -79,7 +88,9 @@ public class UserInterface {
 		System.out.println("Choose your username: ");
 		currentUser = userInput();
 
+		//TODO: check if username is not taken and add it, currently doing it through user class
 		if (user.addUser(currentUser)) { //check for already existing username
+
 			System.out.println("Username successfully added."); //tell user input was successful
 			currentPage = 1; //go back to page 1
 		} else { //username already exists
@@ -165,7 +176,10 @@ public class UserInterface {
 				currentPage = 6; //go back to page 6
 				boolSNo = true; //valid option selected
 
+			//TODO: check if sNo exists, currently doing it through user class
 			} else if (user.checkSNo(Integer.parseInt(choose))) { //check if the number enetered is a sNo
+
+				sNo = Integer.parseInt(choose); //assign sNo to variable
 				boolSNo = true; //valid sNo selected
 
 				boolQuantity = false; //reset for loop
@@ -173,7 +187,9 @@ public class UserInterface {
 					System.out.println("Enter quantity: "); //ask for quantity
 					quantity = Integer.parseInt(userInput()); //get user input for quantity
 
-					if (user.checkQuantity(quantity)) { //check for valid quantity
+					//TODO: check is there is enough quantity of the sNo, currently doing it through user class
+					if (user.checkQuantity(quantity, sNo)) { //check for valid quantity
+
 						boolQuantity = true; //valid quantity selected
 
 						//TODO: append item to cart
@@ -207,7 +223,7 @@ public class UserInterface {
 		//**Page No. 9! User is viewing Audio. Numbers equal sNo's,**//
 		//**selecting one will request a quantity. (-1) goes back a menu**//
 
-		//TODO: copy/paste from p8()
+		//TODO: copy/paste from p8() when done
 
 	}
 
