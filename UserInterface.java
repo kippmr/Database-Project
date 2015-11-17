@@ -5,25 +5,23 @@ import java.util.*;
 public class UserInterface {
 	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); //object for user's input
 
-	//TODO: create user object, currently doing it through user class
-	User user = new User(); //object for the user
-
 	private int currentPage, quantity, sNo, cNo; //page number, quantity
 	private String currentUser = ""; //current user
 	private String choose = ""; //stores user input
 	private ArrayList<String> audioProducts = new  ArrayList<String>(); //ArrayList for audio
 	private ArrayList<String> readables = new  ArrayList<String>(); //ArrayList for readables
+	private ArrayList<String> users = new  ArrayList<String>(); //ArrayList for readables
 
 	boolean boolOption = false; //check if the entered option is valid
 	boolean boolSNo = false; //check if the entered sNo is valid
 	boolean boolQuantity = false; //check if the quantity is valid
 
 	public UserInterface() {
-
-		//TODO: make shopping cart object, currently doing it through user class
-		user.makeSC(); //make the users shopping cart
-
 		currentPage = 1;
+
+		getReadables();
+		getAudioProducts();
+		getUsers();
 	}
 
 	public void mainLoop() {
@@ -69,7 +67,7 @@ public class UserInterface {
 			
 
 			//TODO: check if the username is exists, currently doing it through user class
-			if (user.checkUser(currentUser)) { //check if the username exists
+			if (User.checkUser(currentUser)) { //check if the username exists
 
 				currentPage = 3; //proceed to page 4
 			} else { //if the username does not exist
@@ -89,8 +87,9 @@ public class UserInterface {
 		currentUser = userInput();
 
 		//TODO: check if username is not taken and add it, currently doing it through user class
-		if (user.addUser(currentUser)) { //check for already existing username
+		if (user.checkUser(currentUser)) { //check for already existing username
 
+			User.addUser(currentUser);
 			System.out.println("Username successfully added."); //tell user input was successful
 			currentPage = 1; //go back to page 1
 		} else { //username already exists
@@ -306,6 +305,21 @@ public class UserInterface {
 				break;
 			}
 			audioProducts.add(line);
+		}
+		reader.close();
+	}
+
+	public void getUsers() {
+		//fetch all users from the files and place them in the users array
+		
+		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
+
+		while (true) {
+			String line = reader.readLine();
+			if (line == null) {
+				break;
+			}
+			users.add(line);
 		}
 		reader.close();
 	}
