@@ -17,7 +17,7 @@ public class ShoppingCart extends User {
     public ShoppingCart(String uName) {
     	super(uName);
     	this.contents = [];
-    	cart = new File("cart_" + uName)
+    	cart = new File("cart_" + uName);
     	PrintWriter pw = new PrintWriter(cart, true);
     }
     
@@ -38,11 +38,13 @@ public class ShoppingCart extends User {
 	}
 	
 	/** Takes an object of a subclass of type Item and integer quantity as input, 
-	 * checks if the quantity is less than or equal
-	 * to the amount available, and if so, creates an new object of the same type, with the
-	 * specified quantity, and adds it to contents. Updates the quantity of the original object.
-	 * If the quantity is too large, prints "not enough in stock" */
+	 *  checks if the quantity is less than or equal
+	 *  to the amount available, and if so, creates an new object of the same type, with the
+	 *  specified quantity, and adds it to contents. Updates the quantity of the original object.
+	 *  If the quantity is too large, prints "not enough in stock" 
+	 */
 	public void addItem(Item o, int quantity ) { 
+
 		if (quantity <= o.getQuant()) {
 			info = o.getInfoArray();
 			if (o instanceof Readable) {
