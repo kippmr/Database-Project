@@ -18,12 +18,12 @@ public class eBook extends Readable {
 
 	@Override
 	public String getInfo() {
-		return super.getInfo + "," + quant; 
+		return super.getInfo() + "," + quant; 
 	}
 
 	@Override
 	public String[] getInfoArray() { 
-		return new String[] {Integer.toString(sNo), title, authorName, type, Integer.toString(price), Integer.toString(quant)};
+		return new String[] {Integer.toString(sNo), title, authorName, Integer.toString(price), Integer.toString(quant)};
 	}
 
 	public int getQuant() {

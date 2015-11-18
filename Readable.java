@@ -20,7 +20,7 @@ public class Readable extends Item {
         return sNo + "," + title + "," + authorName + "," price;
     }
 
-    public String[] getInfoArray() { //supposed to be a string not string array? is this OK
+    public String[] getInfoArray() { 
         return new String[]{Integer.toString(sNo), title, authorName,Integer.toString(price)};
     }
 }

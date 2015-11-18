@@ -17,17 +17,17 @@ public class CD extends Audio {
 	}
 
 	@Override 
-	public int getInfo() {
+	public String getInfo() {
 		return super.getInfo() + "," + quant;
 	}
 
 	@Override
 	public String[] getInfoArray() { //[sNo, title, authorName, type]
-		return new String[] {Intger.toString(sNo), title, artistName, Integer.toString(price), Integer.toString(quant)};
+		return new String[] {Integer.toString(sNo), title, artistName, Integer.toString(price), Integer.toString(quant)};
 	}
 
 	public void setQuant(int quant) { //however many are bought
-		this.quantity = quant;
+		this.quant = quant;
 	}
 
 

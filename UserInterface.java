@@ -218,7 +218,7 @@ public class UserInterface {
 
 				} else { //selected invalid amount of product
 					System.out.println("Selected Quantity not Available."); //alert user to error
-					currentPage = 8 //repeat page 6
+					currentPage = 8; //repeat page 6
 				}
 
 			} else { //selected invalid sNo

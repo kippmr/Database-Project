@@ -11,7 +11,7 @@ public class Audio extends Item {
 	}
 
 	public String getInfo() {
-		return sNo + "," + title + "," artistName + "," + price;
+		return sNo + "," + title + "," + artistName + "," + price;
 	}
 
 	public String[] getInfoArray() { //supposed to be a string not string array? is this OK
