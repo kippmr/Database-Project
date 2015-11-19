@@ -5,18 +5,17 @@ import java.io.*;
 public class ShoppingCart extends User {
 	
 	protected String getDate() {
-		DateFormat d = new SimpleDateFormat("dd/MM/yyyyy")
+		DateFormat d = new SimpleDateFormat("dd/MM/yyyyy");
 		Date date = new Date();
 		return d.format(date);
 	}
     protected List<Item> contents = new ArrayList<Item>();
-    protected File cart 
+    protected File cart;
     
     
     //Creates the shoppingcart for the user
     public ShoppingCart(String uName) {
     	super(uName);
-    	this.contents = [];
     	cart = new File("cart_" + uName);
     	PrintWriter pw = new PrintWriter(cart, true);
     }
@@ -25,9 +24,9 @@ public class ShoppingCart extends User {
     /** Returns a string consisting of the info of each item in contents
      * separated by newline characters */
 	public String getContent() {
-		String items = "" 
+		String items = ""; 
 		for (Item o: contents) {
-			items += o.getInfoArray[0] + " " + o.getInfoArray[1] + " " + getDate() + " " + Integer.tostring(o.getQuant);
+			items += o.getInfoArray[0] + " " + o.getInfoArray[1] + " " + getDate() + " " + Integer.toString(o.getQuant);
 		}
 		return items;
 	}
@@ -61,7 +60,7 @@ public class ShoppingCart extends User {
 				}
 			}
 			this.contents.add(p);
-			pw.println(info[0] + " " + info[1] + " " + getDate() + " " +  Integer.tostring(quantity)
+			pw.println(info[0] + " " + info[1] + " " + getDate() + " " +  Integer.tostring(quantity));
 			
 			
 		} else {
@@ -72,7 +71,7 @@ public class ShoppingCart extends User {
 	
 	//Clear the shopping cart
 	public void clearCart() {
-		this.contents = [];
+		//this.contents = []; // need different method to reset contents, contents is not an array, rather an ArrayList
 	}
 	
 	

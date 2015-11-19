@@ -5,14 +5,16 @@ import java.util.*;
 public class UserInterface {
 	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); //object for user's input
 
-	private int currentPage, quantity; //page number, quantity
-	private String cID = ""; //confirmation ID
-	private String sNo = ""; //serial number
-	private String currentUser = ""; //current user
-	private String choose = ""; //stores user input
+	private int currentPage, quantity; 									//page number, quantity
+	
+	private String cID = ""; 											//confirmation ID
+	private String sNo = ""; 											//serial number
+	private String currentUser = ""; 									//current user
+	private String choose = ""; 										//stores user input
+	
 	private ArrayList<String> audioProducts = new  ArrayList<String>(); //ArrayList for audio
-	private ArrayList<String> readables = new  ArrayList<String>(); //ArrayList for readables
-	private ArrayList<String> users = new  ArrayList<String>(); //ArrayList for readables
+	private ArrayList<String> readables = new  ArrayList<String>(); 	//ArrayList for readables
+	private ArrayList<String> users = new  ArrayList<String>(); 		//ArrayList for readables
 
 	//TODO: initialize user object, currently doing it through user class
 	User userO; //object for the user
