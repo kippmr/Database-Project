@@ -163,11 +163,9 @@ public class UserInterface {
 
 	private void p7(){
 		//**Page No. 7! User is viewing their Cart_USERNAME.txt file!**//
-		String filename = "Cart_" + currentUser + ".txt";
-
 
 		//TODO: open Cart_USERNAME.txt file and list its contents, comma-separated
-		ShoppingCart.getContent();
+		System.out.println(ShoppingCart.getContent(currentUser));
 
 		currentPage = 5;
 	}
@@ -201,7 +199,7 @@ public class UserInterface {
 				quantity = Integer.parseInt(userInput()); //get user input for quantity
 
 				//TODO: check is there is enough quantity of the sNo, currently doing it through shoppingcart class
-				if (ShoppingCart.checkQuantity(quantity, sNo)) { //check for valid quantity
+				if (ShoppingCart.checkQuantity(quantity, sNo, currentUser)) { //check for valid quantity
 
 					//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
@@ -278,6 +276,8 @@ public class UserInterface {
 	public void getReadables() {
 		//fetch all readables from the files and place them in the readables array
 
+		//TODO: make the array list for Item objects instead of strings
+
 		BufferedReader reader = new BufferedReader(new FileReader("Book.txt"));
 
 		while (true) {
@@ -331,8 +331,6 @@ public class UserInterface {
 
 	public void getUsers() {
 		//fetch all users from the files and place them in the users array
-
-		//TODO: make the array list for Item objects instead of strings
 		
 		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
 
