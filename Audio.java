@@ -3,11 +3,12 @@ public class Audio extends Item {
 
 	protected String title, artistName;
 	protected int price;
+	
 	public Audio(String sNo, String title, String artistName, String price) {
 		this.sNo = Integer.parseInt(sNo);
 		this.title = title;
 		this.artistName = artistName;
-		this.price;
+		this.price = Integer.parseInt(price);
 	}
 
 	public String getInfo() {

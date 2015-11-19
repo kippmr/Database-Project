@@ -17,7 +17,7 @@ public class Readable extends Item {
 	}
 
     public String getInfo() {
-        return sNo + "," + title + "," + authorName + "," price;
+        return sNo + "," + title + "," + authorName + "," + price;
     }
 
     public String[] getInfoArray() { 

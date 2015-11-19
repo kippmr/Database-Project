@@ -24,6 +24,7 @@ public class UserInterface {
 	boolean boolQuantity = false; //check if the quantity is valid
 
 	public UserInterface() {
+		
 		currentPage = 1;
 
 		getReadables();
@@ -31,7 +32,7 @@ public class UserInterface {
 		getUsers();
 	}
 
-	public static void mainLoop() {
+	public void mainLoop() {
 		/**function to loop and use a switch statment to change the page to whichever page the user is on**/
 		while(true) { //is forever really such a good idea?
 			if (currentPage == 1) {
@@ -65,8 +66,8 @@ public class UserInterface {
 	private void p1() {
 		//**Page No. 1! Where a user either (1) signs in or (2) signs up**//
 		System.out.println("1.Sign in"
-				+ "\n2.Sign up"
-				+ "\n\nChoose your Option: "); //display options to user
+						 + "\n2.Sign up"
+						 + "\n\nChoose your Option: "); //display options to user
 		choose = userInput(); //get the selected option
 		if (choose.equals("1")) { //the user chooses 1
 			System.out.println("Enter your username: "); //ask for a username
@@ -84,9 +85,12 @@ public class UserInterface {
 				currentPage = 4; //proceed to page 4
 			}
 			}
+		
 		else if (choose.equals("2")) { //the user chooses 2
 			currentPage = 2; //proceed to page 2
-		} else { //the user does not choose a valid option
+		} 
+
+		else { //the user does not choose a valid option
 			currentPage = 1; //repeat page 1
 		}
 	}
@@ -247,7 +251,7 @@ public class UserInterface {
 		choose = userInput().toLowerCase();
 
 		if (choose.equals(("yes"))) {
-			System.out.println("Comfirmation ID: " + cNo + 
+			System.out.println("Comfirmation ID: " + sNo + 
 				"\nItems shipped to: Mr." + currentUser);
 		} else {
 			System.out.println("Going back to main menu");

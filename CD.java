@@ -30,5 +30,9 @@ public class CD extends Audio {
 		this.quant = quant;
 	}
 
+	public int getQuant() {
+		return quant;
+	}
+
 
 }
