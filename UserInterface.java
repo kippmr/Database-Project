@@ -163,6 +163,8 @@ public class UserInterface {
 
 	private void p7(){
 		//**Page No. 7! User is viewing their Cart_USERNAME.txt file!**//
+		String filename = "Cart_" + currentUser + ".txt";
+
 
 		//TODO: open Cart_USERNAME.txt file and list its contents, comma-separated
 		ShoppingCart.getContent();
@@ -173,11 +175,10 @@ public class UserInterface {
 	private void p8(){
 		//**Page No. 8! User is viewing readables. Numbers equal sNo's,**//
 		//**selecting one will request a quantity. (-1) goes back a menu**//
-		
-		System.out.println("Readables:\n"); //display readables
 
-		// S.No | Name of Book | Author | Price($) | Quantity in Store | Type
-		//TODO: display list of readables to user
+		System.out.printf("\nReadables\n\n%-12s%-20s%-14s%-18s%-25s%s",
+				"S.No","Name of Book","Author","Price($)","Quantity in Store","Type"); //display readables
+		showReadables(); //call show readables function
 
 		boolSNo = false; //reset for loop
 		do { //loop until sNo is valid, or -1
@@ -345,16 +346,44 @@ public class UserInterface {
 		reader.close();
 	}
 
-	public void showReadables() {
-		//TODO: display all readables for browsing, needs formatting: see assignment
+	public void showReadables() throws IOException {
+		String line = null;
 
-		
+		BufferedReader reader = new BufferedReader(new FileReader("Book.txt"));
+	    while ((line = reader.readLine()) != null) {
+	        String[] temp = line.split(",");
+			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
+				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
+	    }
+		reader.close();
+
+		BufferedReader reader = new BufferedReader(new FileReader("eBook.txt"));
+	    while ((line = reader.readLine()) != null) {
+	        String[] temp = line.split(",");
+			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
+				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
+	    }
+		reader.close();		
 	}
 
-	public void showAudioProducts() {
-		//TODO: display all audio products for browsing, needs formatting: see assignment
+	public void showAudioProducts() throws IOException {
+		String line = null;
 
-		
+		BufferedReader reader = new BufferedReader(new FileReader("CD.txt"));
+	    while ((line = reader.readLine()) != null) {
+	        String[] temp = line.split(",");
+			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
+				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
+	    }
+		reader.close();
+
+		BufferedReader reader = new BufferedReader(new FileReader("MP3.txt"));
+	    while ((line = reader.readLine()) != null) {
+	        String[] temp = line.split(",");
+			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
+				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
+	    }
+		reader.close();	
 	}
 
 	public String userInput() {
