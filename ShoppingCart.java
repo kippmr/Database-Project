@@ -72,7 +72,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			String[] info = item.getInfoArray();
 			Book book = new Book(info[0], info[1], info[2], Integer.toString(quantity), info[3]);
-			books.add(book);
+			content.add(book);
 			pw.println(info[0] + " " + info[1] + " " + getDate() + " " +  Integer.toString(quantity));
 		}
 		else {
@@ -84,7 +84,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			String[] info = item.getInfoArray();
 			eBook ebook = new eBook(info[0], info[1], info[2], Integer.toString(quantity), info[3]);
-			ebooks.add(ebook);
+			content.add(ebook);
 			pw.println(info[0] + " " + info[1] + " " + getDate() + " " +  Integer.toString(quantity));
 		}
 		else {
@@ -96,7 +96,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			String[] info = item.getInfoArray();
 			MP3 mp3 = new MP3(info[0], info[1], info[2], Integer.toString(quantity), info[3]);
-			mp3s.add(mp3);
+			content.add(mp3);
 			pw.println(info[0] + " " + info[1] + " " + getDate() + " " +  Integer.toString(quantity));
 		}
 		else {
@@ -108,7 +108,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			String[] info = item.getInfoArray();
 			CD cd = new CD(info[0], info[1], info[2], Integer.toString(quantity), info[3]);
-			cds.add(cd);
+			content.add(cd);
 			pw.println(info[0] + " " + info[1] + " " + getDate() + " " +  Integer.toString(quantity));
 		}
 		else {
