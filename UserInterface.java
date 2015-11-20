@@ -11,6 +11,7 @@ public class UserInterface {
 	private String sNo = ""; 											//serial number
 	private String currentUser = ""; 									//current user
 	private String choose = ""; 										//stores user input
+	private String itemInfoString = "";										//stores information about the current selected item
 	
 	private ArrayList<String> audioProducts = new  ArrayList<String>(); //ArrayList for audio
 	private ArrayList<String> readables = new  ArrayList<String>(); 	//ArrayList for readables
@@ -202,31 +203,68 @@ public class UserInterface {
 				sNo = choose; //assign sNo to variable
 				boolSNo = true; //valid sNo selected
 
-				System.out.println("Enter quantity: "); //ask for quantity
-				quantity = Integer.parseInt(userInput()); //get user input for quantity
+				itemInfoString = findCurrentItem(sNo); //find the string that contains the serial number
+				String[] temp = itemInfoString.split(",") //split the comma-seperated file
+				if (temp[5].equals("Book")) { //check if the type is Book
+					Book currentItem = new Book(temp[0], temp[1], temp[3], temp[4], temp[5]); //make a new Book item
 
-				//TODO: addItem will also check for quantity
-				if (ShoppingCart.addItem(Item, quantity)) { //check for valid quantity
+					System.out.println("Enter quantity: "); //ask for quantity
+					quantity = Integer.parseInt(userInput()); //get user input for quantity
 
-					//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
+					//TODO: addItem will also check for quantity
+					if (ShoppingCart.addItem(currentItem, quantity)) { //check for valid quantity
 
-					boolOption = false; //reset for loop
-					do { //loop until valid answer is chosen
-						System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
-						choose = userInput(); //get user input
+						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
-						if (choose.equals("-2")) { //user chooses option -2
-							boolOption = true; //valid option selected
-							currentPage = 6; //go back to page 6
-						} else if (choose.equals("0")) { //user chooses option 0
-							boolOption = true; //valid option selected
-							currentPage = 10; //proceed to page 10
-						}
-					} while (!boolOption); //while the option is invalid
+						boolOption = false; //reset for loop
+						do { //loop until valid answer is chosen
+							System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
+							choose = userInput(); //get user input
 
-				} else { //selected invalid amount of product
-					System.out.println("Selected Quantity not Available."); //alert user to error
-					currentPage = 8; //repeat page 6
+							if (choose.equals("-2")) { //user chooses option -2
+								boolOption = true; //valid option selected
+								currentPage = 6; //go back to page 6
+							} else if (choose.equals("0")) { //user chooses option 0
+								boolOption = true; //valid option selected
+								currentPage = 10; //proceed to page 10
+							}
+						} while (!boolOption); //while the option is invalid
+
+					} else { //selected invalid amount of product
+						System.out.println("Selected Quantity not Available."); //alert user to error
+						currentPage = 8; //repeat page 6
+					}
+
+				} else if (temp[5].equals("eBook")) { //check if the type is eBook
+					eBook currentItem = new eBook(temp[0], temp[1], temp[3], temp[4], temp[5]); //make new eBook item
+
+
+					System.out.println("Enter quantity: "); //ask for quantity
+					quantity = Integer.parseInt(userInput()); //get user input for quantity
+
+					//TODO: addItem will also check for quantity
+					if (ShoppingCart.addItem(currentItem, quantity)) { //check for valid quantity
+
+						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
+
+						boolOption = false; //reset for loop
+						do { //loop until valid answer is chosen
+							System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
+							choose = userInput(); //get user input
+
+							if (choose.equals("-2")) { //user chooses option -2
+								boolOption = true; //valid option selected
+								currentPage = 6; //go back to page 6
+							} else if (choose.equals("0")) { //user chooses option 0
+								boolOption = true; //valid option selected
+								currentPage = 10; //proceed to page 10
+							}
+						} while (!boolOption); //while the option is invalid
+
+					} else { //selected invalid amount of product
+						System.out.println("Selected Quantity not Available."); //alert user to error
+						currentPage = 8; //repeat page 6
+					}
 				}
 
 			} else { //selected invalid sNo
@@ -239,8 +277,98 @@ public class UserInterface {
 		//**Page No. 9! User is viewing Audio. Numbers equal sNo's,**//
 		//**selecting one will request a quantity. (-1) goes back a menu**//
 
-		//TODO: copy/paste from p8() when done
+		System.out.printf("\Audio:\n\n%-12s%-20s%-14s%-18s%-25s%s",
+				"S.No","Name","Artist","Price($)","Quantity in Store","Type"); //display readables
+		showAudioProducts(); //call show readables function
 
+		boolSNo = false; //reset for loop
+		do { //loop until sNo is valid, or -1
+			System.out.println("Press -1 to return to previous menu."
+					+ "\nChoose your option: "); //display options to user
+			choose = userInput(); //get user input
+
+			//check for valid sNo
+			if (choose.equals("-1")) { //if the user chooses -1
+				currentPage = 6; //go back to page 6
+				boolSNo = true; //valid option selected
+
+			//TODO: check if sNo exists, currently doing it through ui class
+			} else if (checkSNo(choose)) { //check if the number enetered is a sNo
+
+				sNo = choose; //assign sNo to variable
+				boolSNo = true; //valid sNo selected
+
+				itemInfoString = findCurrentItem(sNo); //find the string that contains the serial number
+				String[] temp = itemInfoString.split(",") //split the comma-seperated file
+				if (temp[5].equals("MP3")) { //check if the type is MP3
+					Book currentItem = new MP3(temp[0], temp[1], temp[3], temp[4], temp[5]); //make a new MP3 item
+
+					System.out.println("Enter quantity: "); //ask for quantity
+					quantity = Integer.parseInt(userInput()); //get user input for quantity
+
+					//TODO: addItem will also check for quantity
+					if (ShoppingCart.addItem(currentItem, quantity)) { //check for valid quantity
+
+						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
+
+						boolOption = false; //reset for loop
+						do { //loop until valid answer is chosen
+							System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
+							choose = userInput(); //get user input
+
+							if (choose.equals("-2")) { //user chooses option -2
+								boolOption = true; //valid option selected
+								currentPage = 6; //go back to page 6
+							} else if (choose.equals("0")) { //user chooses option 0
+								boolOption = true; //valid option selected
+								currentPage = 10; //proceed to page 10
+							}
+						} while (!boolOption); //while the option is invalid
+
+					} else { //selected invalid amount of product
+						System.out.println("Selected Quantity not Available."); //alert user to error
+						currentPage = 9; //repeat page 9
+					}
+
+
+				} else if (temp[5].equals("CD")) { //check if the type is CD
+					CD currentItem = new CD(temp[0], temp[1], temp[3], temp[4], temp[5]); //make new CD item
+
+
+					System.out.println("Enter quantity: "); //ask for quantity
+					quantity = Integer.parseInt(userInput()); //get user input for quantity
+
+					//TODO: addItem will also check for quantity
+					if (ShoppingCart.addItem(currentItem, quantity)) { //check for valid quantity
+
+						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
+
+						boolOption = false; //reset for loop
+						do { //loop until valid answer is chosen
+							System.out.println("Press -2 to Continue Shopping or Press 0 to CheckOut: "); //display options to user
+							choose = userInput(); //get user input
+
+							if (choose.equals("-2")) { //user chooses option -2
+								boolOption = true; //valid option selected
+								currentPage = 6; //go back to page 6
+							} else if (choose.equals("0")) { //user chooses option 0
+								boolOption = true; //valid option selected
+								currentPage = 10; //proceed to page 10
+							}
+						} while (!boolOption); //while the option is invalid
+
+					} else { //selected invalid amount of product
+						System.out.println("Selected Quantity not Available."); //alert user to error
+						currentPage = 9; //repeat page 9
+					}
+
+
+				}
+
+			} else { //selected invalid sNo
+				System.out.println("Selected Serial Number not Available."); //alert user to error
+			}
+		} while (!boolSNo); //while sNo is invalid (or not -1)
 	}
 
 	private void p10( ) {
@@ -363,7 +491,7 @@ public class UserInterface {
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
 
-	        sNos.add(temp[0]);
+	        sNos.add(temp[0]); //TODO: THIS MAY NOT WORK WHEN YOU NEED TO DO ADMIN!
 
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
@@ -374,7 +502,7 @@ public class UserInterface {
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
 
-	        sNos.add(temp[0]);
+	        sNos.add(temp[0]); //TODO: THIS MAY NOT WORK WHEN YOU NEED TO DO ADMIN!
 
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
@@ -389,7 +517,7 @@ public class UserInterface {
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
 
-	        sNos.add(temp[0]);
+	        sNos.add(temp[0]); //TODO: THIS MAY NOT WORK WHEN YOU NEED TO DO ADMIN!
 
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
@@ -400,7 +528,7 @@ public class UserInterface {
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
 
-	        sNos.add(temp[0]);
+	        sNos.add(temp[0]); //TODO: THIS MAY NOT WORK WHEN YOU NEED TO DO ADMIN!
 
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
@@ -417,21 +545,36 @@ public class UserInterface {
 		return sNos.contains(str);
 	}
 
-	public boolean checkUser(String usernameTemp){
+	public boolean checkUser(String usernameTemp) {
 		//check if currentUser exists in users ArrayList
 		return users.contains(usernameTemp);
 	}
 
-	public void addUser(String usernameTemp){
+	public void addUser(String usernameTemp) {
 		//add currentUser to ArrayList and Users.txt
 		users.add(usernameTemp);
 
 		//TODO: Use Jack's writing method to write to Users.txt
 	}
 
-
 	public User makeUser() {
 		//create a new User object
 		return new User();
+	}
+
+	public String findCurrentItem(String sNoTemp) {
+		for (String line : readables) { //iterate through readables
+			String[] temp = line.split(","); //make a temporary array 
+			if (temp[0].equals(sNoTemp)) { //check if the first element matches the serial number
+				return line; //if so return that string
+			}
+		}
+
+		for (String line : audioProducts) { //iterate through readables
+			String[] temp = line.split(","); //make a temporary array 
+			if (temp[0].equals(sNoTemp)) { //check if the first element matches the serial number
+				return line; //if so return that string
+			}
+		}
 	}
 }
