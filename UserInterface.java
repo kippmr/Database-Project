@@ -15,9 +15,10 @@ public class UserInterface {
 	private ArrayList<String> audioProducts = new  ArrayList<String>(); //ArrayList for audio
 	private ArrayList<String> readables = new  ArrayList<String>(); 	//ArrayList for readables
 	private ArrayList<String> users = new  ArrayList<String>(); 		//ArrayList for readables
+	private ArrayList<String> sNos = new ArrayList<String>();			//ArrayList for serial numbers
 
-	//TODO: initialize user object, currently doing it through user class
-	User userO; //object for the user
+	//TODO: initialize user object, currently doing it through userinterface class
+	User userO = null; //object for the user
 
 	boolean boolOption = false; //check if the entered option is valid
 	boolean boolSNo = false; //check if the entered sNo is valid
@@ -31,7 +32,7 @@ public class UserInterface {
 		getUsers();
 	}
 
-	public static void mainLoop() {
+	public void mainLoop() {
 		/**function to loop and use a switch statment to change the page to whichever page the user is on**/
 		while(true) { //is forever really such a good idea?
 			if (currentPage == 1) {
@@ -74,10 +75,10 @@ public class UserInterface {
 			
 
 			//TODO: check if the username is exists, currently doing it through user class
-			if (User.checkUser(currentUser)) { //check if the username exists
+			if (checkUser(currentUser)) { //check if the username exists
 
-				//TODO: create user object using getUser in user class
-				userO = User.getUser(currentUser);
+				//TODO: create user object using makeUser
+				userO = makeUser();
 
 				currentPage = 3; //proceed to page 4
 			} else { //if the username does not exist
@@ -97,17 +98,17 @@ public class UserInterface {
 		currentUser = userInput();
 
 		//TODO: check if username is not taken and add it, currently doing it through user class
-		if (User.checkUser(currentUser)) { //check for already existing username
+		if (checkUser(currentUser)) { //check for already existing username
 
 			//TODO: add user to user.txt, currerntly doing it through user class
-			User.addUser(currentUser);
-			users.add(currentUser);
+			addUser(currentUser);
+			users.add(currentUser); //adding user to arraylist
 
 			System.out.println("Username successfully added."); //tell user input was successful
 			currentPage = 1; //go back to page 1
 		} else { //username already exists
 			System.out.println("Username not added"); //tell user input was unsuccessful
-			currentPage = 2; //repeat page 2
+			currentPage = 1; //go back to page 1
 		}
 	}
 
@@ -136,6 +137,8 @@ public class UserInterface {
 			} else if (choose.equals("2")) { //user chooses 2
 				currentPage = 7; //proceed to page 7
 			} else if (choose.equals("3")) { //user chooses 3
+				userO =  null;
+				currentUser = null;
 				currentPage = 1; //go back to page 1
 			} else { //user does not choose a valid option
 				currentPage = 5; //repeat page 5
@@ -198,8 +201,8 @@ public class UserInterface {
 				System.out.println("Enter quantity: "); //ask for quantity
 				quantity = Integer.parseInt(userInput()); //get user input for quantity
 
-				//TODO: check is there is enough quantity of the sNo, currently doing it through shoppingcart class
-				if (ShoppingCart.checkQuantity(quantity, sNo, currentUser)) { //check for valid quantity
+				//TODO: addItem will also check for quantity
+				if (ShoppingCart.addItem(Item, quantity)) { //check for valid quantity
 
 					//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
@@ -239,8 +242,15 @@ public class UserInterface {
 	private void p10( ) {
 		//**Page No. 10! User's Billing Info, yes/no comformation and given an ID**//
 
+		double envTax = 0.02; //applies to Book and CD
+		double shipTax = 0.1; //applies to Book and CD
+
 		System.out.println("Billing Information:");
 		//Name | *Percentages* | Quantity | Price
+		System.out.printf("%20s%14s%14s%s",
+			"Name","","Quantity","Price");
+
+
 
 		System.out.println("Are you sure you want to pay? yes or no. ");
 		choose = userInput().toLowerCase();
@@ -275,8 +285,6 @@ public class UserInterface {
 
 	public void getReadables() {
 		//fetch all readables from the files and place them in the readables array
-
-		//TODO: make the array list for Item objects instead of strings
 
 		BufferedReader reader = new BufferedReader(new FileReader("Book.txt"));
 
@@ -350,6 +358,9 @@ public class UserInterface {
 		BufferedReader reader = new BufferedReader(new FileReader("Book.txt"));
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
+
+	        sNos.add(temp[0]);
+
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
 	    }
@@ -358,6 +369,9 @@ public class UserInterface {
 		BufferedReader reader = new BufferedReader(new FileReader("eBook.txt"));
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
+
+	        sNos.add(temp[0]);
+
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
 	    }
@@ -370,6 +384,9 @@ public class UserInterface {
 		BufferedReader reader = new BufferedReader(new FileReader("CD.txt"));
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
+
+	        sNos.add(temp[0]);
+
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
 	    }
@@ -378,6 +395,9 @@ public class UserInterface {
 		BufferedReader reader = new BufferedReader(new FileReader("MP3.txt"));
 	    while ((line = reader.readLine()) != null) {
 	        String[] temp = line.split(",");
+
+	        sNos.add(temp[0]);
+
 			System.out.printf("\n%-12s%-20s%-14s%-18s%-25s%s",
 				temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]);
 	    }
@@ -390,5 +410,24 @@ public class UserInterface {
 
 	public boolean checkSNo(String str) {
 		//TODO: check if the sNo exists, wait until audioProducts and readables ArrayLists are for Items
+		return sNos.contains(str);
+	}
+
+	public boolean checkUser(String usernameTemp){
+		//check if currentUser exists in users ArrayList
+		return users.contains(usernameTemp);
+	}
+
+	public void addUser(String usernameTemp){
+		//add currentUser to ArrayList and Users.txt
+		users.add(usernameTemp);
+
+		//TODO: Use Jack's writing method to write to Users.txt
+	}
+
+
+	public User makeUser() {
+		//create a new User object
+		return new User();
 	}
 }

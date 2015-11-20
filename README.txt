@@ -33,7 +33,7 @@ TODO: (line# is where it is approx located in UserInterface.java)
 		line201:checkQuantity(int, String, String) returns boolean, given quantity, sNo, currentUser
 				check if there is enough quantity in the given sNo
 				append item to Cart_USERNAME.txt and return true if so
-				might not be able to append the item here
+				System.out.println(quantity + " " + title + "successfully added to the cart");
 
 
 Matt:
