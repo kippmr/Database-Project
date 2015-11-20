@@ -20,7 +20,7 @@ public class ShoppingCart extends User {
     	super(uName);
     	cart = new File("cart_" + uName);
     	if (cart.exists() && !cart.isDirectory()) {
-    		pw = new PrintWriter(new FileOutputStream(new File(cart),true));
+    		pw = new PrintWriter(new FileOutputStream(cart,true));
     	}
     	else {
     		pw = new PrintWriter(cart);
