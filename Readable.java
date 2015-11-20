@@ -20,7 +20,11 @@ public class Readable extends Item {
         return sNo + "," + title + "," + authorName + "," + price;
     }
 
-    public String[] getInfoArray() { 
-        return new String[]{Integer.toString(sNo), title, authorName,Integer.toString(price)};
-    }
+    public String getTitle() {
+		return this.title;
+	}
+
+	public int getSerial() {
+		return this.sNo;
+	}
 }

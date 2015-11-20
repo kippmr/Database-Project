@@ -15,8 +15,12 @@ public class Audio extends Item {
 		return sNo + "," + title + "," + artistName + "," + price;
 	}
 
-	public String[] getInfoArray() { //supposed to be a string not string array? is this OK
-		return new String[]{Integer.toString(sNo), title, artistName, Integer.toString(price)};
+	public String getTitle() {
+		return this.title;
+	}
+
+	public int getSerial() {
+		return this.sNo;
 	}
 
 	@Override

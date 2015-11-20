@@ -21,11 +21,6 @@ public class CD extends Audio {
 		return super.getInfo() + "," + quant;
 	}
 
-	@Override
-	public String[] getInfoArray() { //[sNo, title, authorName, type]
-		return new String[] {Integer.toString(sNo), title, artistName, Integer.toString(price), Integer.toString(quant)};
-	}
-
 	public void setQuant(int quant) { //however many are bought
 		this.quant = quant;
 	}
