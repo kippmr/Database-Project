@@ -25,10 +25,9 @@ public class ShoppingCart extends User {
     	cart = new File(cartname);
     	
     	if (cart.exists() && !cart.isDirectory()) 
-    		readContentFile(cart);
+    		readContentFile();
     	
-    	writer = new FileWriter(cart);
-    	buffwriter = new BufferedWriter(writer);	
+    		
     }
 
 	public String getContent() {
@@ -79,20 +78,23 @@ public class ShoppingCart extends User {
 		}
 	}
 
-	private void readContentFile(File cart) throws IOException{
+	private void readContentFile() throws IOException{
 		buffreader = new BufferedReader(new FileReader(cart));
 		String line;
 		while ((line = buffreader.readLine()) != null) {
         	content.add(line);
     	}
+    	buffreader.close();
 	}
 
-	public void writeToFile() {
+	public void writeToFile() throws IOException{
+		writer = new FileWriter(cart);
+    	buffwriter = new BufferedWriter(writer);
 		for (String line: content) {
-			bufferwriter.write(line);
-			bufferwriter.newLine();
+			buffwriter.write(line);
+			buffwriter.newLine();
 		}
-		bufferwriter.close();
+		buffwriter.close();
 	}
 
 	//Clear the shopping cart
