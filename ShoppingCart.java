@@ -5,8 +5,8 @@ import java.io.*;
 public class ShoppingCart extends User {
 
 	protected List<Object> content = new ArrayList<Object>();
-    protected File cart;
-    PrintWriter pw;
+    protected File cart = null;
+    protected PrintWriter pw = null;
 	
 	protected String getDate() {
 		SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyyy");
@@ -19,7 +19,12 @@ public class ShoppingCart extends User {
     public ShoppingCart(String uName) {
     	super(uName);
     	cart = new File("cart_" + uName);
-    	PrintWriter pw = new PrintWriter(cart);
+    	if (cart.exists() && !cart.isDirectory()) {
+    		pw = new PrintWriter(new FileOutputStream(new File(cart),true));
+    	}
+    	else {
+    		pw = new PrintWriter(cart);
+    	}
     }
 
 	public String getContent() {
@@ -45,8 +50,6 @@ public class ShoppingCart extends User {
 				System.out.println("incompatible object added");
 				return "";
 			}
-
-			
 		}
 		return items;
 	}
@@ -55,6 +58,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			content.add(item);
 			pw.println(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			pw.flush();
 		}
 		else {
 			System.out.println("Not enough in stock");
@@ -65,6 +69,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			content.add(item);
 			pw.println(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			pw.flush();
 		}
 		else {
 			System.out.println("Not enough in stock");
@@ -75,6 +80,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			content.add(item);
 			pw.println(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			pw.flush();
 		}
 		else {
 			System.out.println("Not enough in stock");
@@ -85,6 +91,7 @@ public class ShoppingCart extends User {
 		if (quantity <= item.getQuant()) {
 			content.add(item);
 			pw.println(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			pw.flush();
 		}
 		else {
 			System.out.println("Not enough in stock");

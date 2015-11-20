@@ -12,14 +12,13 @@ public class User {
 	
 	//Adds a user to the users list if their username isn't already in use
 	public static boolean checkUser(String uName) {
-		boolean validUser = true;
 		for (User u: UserInterface.userNameList) {
 			if (u.getUsername().equals(username)) {
-				validUser = false;
 				System.out.println("Username already in use");
+				return false;
 			}
 		}
-		return validUser;
+		return true;
 	}
 	
 	//Create a user 
