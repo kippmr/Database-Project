@@ -79,12 +79,20 @@ public class ShoppingCart extends User {
 		}
 	}
 
-	public void readContentFile(File cart) throws IOException{
+	private void readContentFile(File cart) throws IOException{
 		buffreader = new BufferedReader(new FileReader(cart));
 		String line;
 		while ((line = buffreader.readLine()) != null) {
         	content.add(line);
     	}
+	}
+
+	public void writeToFile() {
+		for (String line: content) {
+			bufferwriter.write(line);
+			bufferwriter.newLine();
+		}
+		bufferwriter.close();
 	}
 
 	//Clear the shopping cart
