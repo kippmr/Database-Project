@@ -1,18 +1,11 @@
 public class eBook extends Readable {
 
-	protected int quant;
-
 	public eBook(String sNo, String title, String authorName, String price, String quant){
-		super(sNo, title, authorName,price);
-		this.quant = Integer.parseInt(quant);
+		super(sNo, title, authorName, price, quant);
 	}
 
 	@Override
 	public int getPrice() {
-		return super.getPrice();
-	}
-
-	public int getPriceR() {
 		return super.getPrice();
 	}
 

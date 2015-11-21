@@ -2,13 +2,14 @@
 public class Readable extends Item {
 
 	protected String title, authorName;
-	protected int price;
+	protected int price, quant;
 	
-	public Readable(String sNo, String title, String authorName, String price){
+	public Readable(String sNo, String title, String authorName, String price, String quant){
 		this.sNo = Integer.parseInt(sNo);
 		this.title = title;
 		this.authorName = authorName;
 		this.price = Integer.parseInt(price);
+		this.quant = Integer.parseInt(quant);
 	}
 
 	@Override

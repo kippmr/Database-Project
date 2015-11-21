@@ -2,13 +2,14 @@
 public class Audio extends Item {
 
 	protected String title, artistName;
-	protected int price;
+	protected int price,quant;
 	
-	public Audio(String sNo, String title, String artistName, String price) {
+	public Audio(String sNo, String title, String artistName, String price, String quant) {
 		this.sNo = Integer.parseInt(sNo);
 		this.title = title;
 		this.artistName = artistName;
 		this.price = Integer.parseInt(price);
+		this.quant = Integer.parseInt(quant);
 	}
 
 	public String getInfo() {
