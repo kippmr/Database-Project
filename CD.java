@@ -7,7 +7,11 @@ public class CD extends Audio {
 	
 	@Override
 	public int getPrice() {
-		return (int)Math.round((double)super.getPrice() * 1.02); //still need envirotax, multiply by 1.02? and 1.13?
+		return (int)Math.round((double)super.getPrice() * 1.02); 
+	}
+
+	public int getTax() {
+		return (int) ((double)super.getPrice() * 0.02);
 	}
 
 	@Override 
@@ -15,7 +19,7 @@ public class CD extends Audio {
 		return super.getInfo() + "," + quant;
 	}
 
-	public void setQuant(int quant) { //however many are bought
+	public void setQuant(int quant) { 
 		this.quant = quant;
 	}
 

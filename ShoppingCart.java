@@ -25,9 +25,7 @@ public class ShoppingCart extends User {
     	cart = new File(cartname);
     	
     	if (cart.exists() && !cart.isDirectory()) 
-    		readContentFile();
-    	
-    		
+    		readContentFile();	
     }
 
 	public String getContent() {
@@ -36,6 +34,10 @@ public class ShoppingCart extends User {
 			items += item + "\n";
 		}
 		return items;
+	}
+
+	public List<String> allContent() {
+		return content;
 	}
 	
 	public boolean addItem(Book item, int quantity) {

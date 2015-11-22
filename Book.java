@@ -9,6 +9,10 @@ public class Book extends Readable {
 		return (int)Math.round((double)super.getPrice() * 1.02);
 	}
 
+	public int getTax() {
+		return (int) ((double)super.getPrice() * 0.02);
+	}
+
 	@Override
 	public String getInfo() {
 		return super.getInfo() + "," + quant; 

@@ -6,20 +6,19 @@ public class UserInterface {
 	BufferedReader stung = new BufferedReader(new InputStreamReader(System.in)); 	//object for user's input
 
 	private int currentPage, quantity; 											 	//page number, quantity
-	
-	private String cID 					= ""; 										//confirmation ID
-	private int sNo 					= 0; 	//serial number
-	private long id 					= 1000;								
+		
+	private int cID 					= 0;									
+	private int sNo 					= 0;
+	private int total					= 0; 									
 	private String currentUser  		= ""; 										//current user
-	private String choice 				= "";
-	private String confirm				= "U";  										//stores user input								
+	private String choice 				= "";										//stores user input								
 	
 	private ArrayList<Readable> readables	= new ArrayList<Readable>(); 					//ArrayList for audio
 	private ArrayList<Audio> audioProducts	= new ArrayList<Audio>(); 					//ArrayList for readables
 	
 	private ArrayList<String> users 	= new ArrayList<String>(); 					//ArrayList for users
 
-	private User userO 		   					= null; 									/
+	private User userO 		   					= null; 									
 	private ShoppingCart cartO 					= null; 
 
 	boolean validOption   				= false; 									//check if the entered option is valid
@@ -33,6 +32,7 @@ public class UserInterface {
 		getReadables();
 		getAudioProducts();
 		getUsers();
+		getConfirm();
 	}
 
 	public void mainLoop() throws IOException{
@@ -182,10 +182,10 @@ public class UserInterface {
 		//**Page No. 8! User is viewing readables. Numbers equal sNo's,**//
 		//**selecting one will request a quantity. (-1) goes back a menu**//
 
-		System.out.printf("\nReadables\n\n%-12s%-20s%-14s%-18s%-25s%s",
+		System.out.printf("\nReadables\n\n%-5s%-25s%-10s%-10s%-20s%-5s",
 				"S.No","Name of Book","Author","Price($)","Quantity in Store","Type"); 	//display readables
 		showReadables(); 																//call show readables function
-
+		System.out.println();
 		validSNo = false; 																//reset for loop
 		do { 																			//loop until sNo is valid, or -1
 			System.out.println("Press -1 to return to previous menu."
@@ -275,10 +275,10 @@ public class UserInterface {
 		//**Page No. 9! User is viewing Audio. Numbers equal sNo's,**//
 		//**selecting one will request a quantity. (-1) goes back a menu**//
 
-		System.out.printf("Audio:\n\n%-12s%-20s%-14s%-18s%-25s%s",
+		System.out.printf("Audio:\n\n%-5s%-25s%-10s%-10s%-20s%-5s",
 				          "S.No","Name","Artist","Price($)","Quantity in Store","Type"); //display readables
 		showAudioProducts(); //call show readables function
-
+		System.out.println();
 		validSNo = false; //reset for loop
 		do { //loop until sNo is valid, or -1
 			System.out.println("Press -1 to return to previous menu."
@@ -378,24 +378,50 @@ public class UserInterface {
 
 	private void p10( ) throws IOException{
 		//**Page No. 10! User's Billing Info, yes/no comformation and given an ID**//
-
-		double envTax = 0.02; //applies to Book and CD
-		double shipTax = 0.1; //applies to Book and CD
+		int env = getEnviro();
+		int totalbefore = getAllPrices();
+		int ship = (int) ((double)totalbefore * 0.1);
+		int hst =  (int) ((double)totalbefore * 0.13);
+		int everything = env + ship + hst + totalbefore;
 
 		System.out.println("Billing Information:");
+		System.out.println();
 		//Name | *Percentages* | Quantity | Price
-		System.out.printf("%20s%14s%14s%s",
+		System.out.printf("%24s%6s%10s%s\n",
 			"Name","","Quantity","Price");
 
+		String[] info;
+		for (String line : cartO.allContent()) {
+			info = line.split(",");
+			System.out.printf("%24s%6s%10s%d\n",
+			info[1],"",info[3],findPrice(Integer.parseInt(info[0])));
+		}
+
+		System.out.printf("%24s%6s%10s%d\n",
+			"Enviroment Tax","2%","",env);
+
+		System.out.printf("%24s%6s%10s%d\n",
+			"HST","13%","", hst);
+
+		System.out.printf("%24s%6s%10s%d\n",
+			"Shipping","10%","", ship);
+
+		System.out.printf("%24s%6s%10s%s\n",
+			"","","", "------------");
+
+		System.out.printf("%24s%6s%10s%d\n",
+			"Total:","","", everything);
 
 
 		System.out.println("Are you sure you want to pay? yes or no. ");
 		choice = userInput().toLowerCase();
 
 		if (choice.equals(("yes"))) {
-			System.out.println("Comfirmation ID: " + confirm + id + 
+			System.out.println("Comfirmation ID: " + "U" + cID + 
 				"\nItems shipped to: Mr." + currentUser);
-			id++;
+			writeConfirm();
+			cartO.clearCart();
+			cID++;
 		} 
 		else if (choice.equals("no")) {
 			System.out.println("Going back to main menu");
@@ -421,7 +447,7 @@ public class UserInterface {
 
 	public void getReadables() throws IOException{
 		//fetch all readables from the files and place them in the readables array
-		BufferedReader reader = new BufferedReader(new FileReader("Book.txt"));
+		BufferedReader reader = new BufferedReader(new FileReader("Books.txt"));
 		
 		String line;
 		while ((line = reader.readLine()) != null) {
@@ -430,7 +456,7 @@ public class UserInterface {
 		}
 		reader.close();
 
-		reader = new BufferedReader(new FileReader("eBook.txt"));
+		reader = new BufferedReader(new FileReader("eBooks.txt"));
 
 		while ((line = reader.readLine()) != null) {
 			String[] entry = line.split(",");
@@ -453,7 +479,7 @@ public class UserInterface {
 		}
 		reader.close();
 
-		reader = new BufferedReader(new FileReader("CD.txt"));
+		reader = new BufferedReader(new FileReader("CDs.txt"));
 
 		while ((line = reader.readLine()) != null) {
 			String[] entry = line.split(",");
@@ -464,15 +490,91 @@ public class UserInterface {
 		return;
 	}
 
-	public void getUsers() throws IOException{
+	public void getUsers() throws IOException {
 		//fetch all users from the files and place them in the users array
-		
-		BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
-		String line;
-		while ((line = reader.readLine()) != null) {
-			users.add(line);
+		File userfile = new File("Users.txt");
+		if(userfile.exists() && !userfile.isDirectory()) {
+			BufferedReader reader = new BufferedReader(new FileReader("Users.txt"));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				users.add(line);
+			}
+			reader.close();
 		}
-		reader.close();
+		return;
+	}
+
+	public int getEnviro() {
+		int enviro = 0;
+		String[] info;
+		Object obj;
+		for (String line : cartO.allContent()) {
+			info = line.split(",");
+			obj = findItem(Integer.parseInt(info[0]));
+			if (obj instanceof Book) {
+				Book item = (Book) obj;
+				enviro += item.getTax();
+			}
+			else if (obj instanceof CD) {
+				CD item = (CD) obj;
+				enviro += item.getTax();
+			}
+		}
+		return enviro;
+	}
+
+	public int getAllPrices() {
+		int total = 0;
+		String[] info;
+		Object obj;
+		for (String line : cartO.allContent()) {
+			info = line.split(",");
+			obj = findItem(Integer.parseInt(info[0]));
+			if (obj instanceof Readable) {
+				Readable item = (Readable) obj;
+				total += item.getPrice();
+			}
+			else if (obj instanceof Audio) {
+				Audio item = (Audio) obj;
+				total += item.getPrice();
+			}
+			
+		}
+		return total;
+	}
+
+	public void getConfirm() throws IOException {
+		File itemsBought = new File("ItemsBought.txt");
+		if(itemsBought.exists() && !itemsBought.isDirectory()) {
+			BufferedReader reader = new BufferedReader(new FileReader("ItemsBought.txt"));
+			String line;
+			while ((line = reader.readLine()) != null) {}
+			String[] info = line.split("\\s+");
+			info[0] = info[0].substring(1);
+			cID = Integer.parseInt(info[0]);
+		}
+		else
+			cID = 1000;
+		return;
+	}
+
+	public void writeConfirm () throws IOException {
+		File itemsBought = new File("ItemsBought.txt");
+		BufferedWriter writer;
+		if(itemsBought.exists() && !itemsBought.isDirectory()) {
+			writer = new BufferedWriter(new FileWriter("ItemsBought.txt",true));
+		}
+		else {
+			writer = new BufferedWriter(new FileWriter("ItemsBought.txt"));
+			writer.write(String.format("%-15s%-15s%-10s","Confirmation ID", "Product Name","Total"));
+		}
+		String[] info;
+		for (String line : cartO.allContent()) {
+			info = line.split(",");
+			writer.write(String.format("%-15s%-15s%-10d","U" + cID, info[1],total));
+		}
+			
+			
 		return;
 	}
 
@@ -480,10 +582,10 @@ public class UserInterface {
 
 	    for(Readable obj: readables) {
 	    	if(obj instanceof Book)
-				System.out.printf("\n%-12i%-20s%-14s%-18i%-25i%-8s%",
+				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",
 								obj.sNo, obj.title, obj.authorName, obj.price, obj.quant, "Book");
-			else (obj instanceof CD )
-				System.out.printf("\n%-12i%-20s%-14s%-18i%-25i%-8s%",
+			else if (obj instanceof eBook)
+				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",
 								obj.sNo, obj.title, obj.authorName, obj.price, obj.quant, "eBook");
 	    }
 	}
@@ -492,10 +594,10 @@ public class UserInterface {
 		
 	    for(Audio obj: audioProducts) {
 	    	if (obj instanceof MP3)
-				System.out.printf("\n%-12i%-20s%-14s%-18i%-25i%-8s%",
+				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",
 								obj.sNo, obj.title, obj.artistName, obj.price, obj.quant, "MP3");
 			else if (obj instanceof CD)
-				System.out.printf("\n%-12i%-20s%-14s%-18i%-25i%-8s%",
+				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",
 								obj.sNo, obj.title, obj.artistName, obj.price, obj.quant, "CD");
 	    }
 	}
@@ -508,7 +610,7 @@ public class UserInterface {
 
 	public void addUser(String username) throws IOException{
 		//add currentUser to ArrayList and Users.txt
-		File target = new File("user.txt");
+		File target = new File("Users.txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(target,true));
 		users.add(username);
 		writer.write(username);
@@ -529,6 +631,20 @@ public class UserInterface {
 
 		return null;
 	}
+
+	public int findPrice(int serial) {
+		for (Readable obj : readables) 
+			if (obj.sNo == serial) 
+				return obj.getPrice();
+				
+
+		for (Audio obj : audioProducts) 
+			if (obj.sNo == serial) 
+				return obj.getPrice();
+
+		return 0;
+	}
+	
 	public boolean checkSNo(int serial) {
 		for (Readable obj : readables) { 
 			if (obj.sNo == serial) {
