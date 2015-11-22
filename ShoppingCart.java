@@ -41,7 +41,7 @@ public class ShoppingCart extends User {
 	}
 	
 	public boolean addItem(Book item, int quantity) {
-		if (quantity <= item.getQuant()) {
+		if (quantity <= item.getQuant() && quantity >= 1) {
 			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
@@ -51,7 +51,7 @@ public class ShoppingCart extends User {
 	}
 
 	public boolean addItem(eBook item, int quantity) {
-		if (quantity <= item.getQuant()) {
+		if (quantity <= item.getQuant() && quantity >= 1) {
 			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
@@ -61,7 +61,7 @@ public class ShoppingCart extends User {
 	}
 
 	public boolean addItem(MP3 item, int quantity) {
-		if (quantity <= item.getQuant()) {
+		if (quantity <= item.getQuant() && quantity >= 1) {
 			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
@@ -71,7 +71,7 @@ public class ShoppingCart extends User {
 	}
 
 	public boolean addItem(CD item, int quantity) {
-		if (quantity <= item.getQuant()) {
+		if (quantity <= item.getQuant() && quantity >= 1) {
 			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}

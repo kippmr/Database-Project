@@ -131,6 +131,7 @@ public class UserInterface {
 			System.out.println("1.View Items By Catagory"
 							 + "\n2.View Shopping Cart"
 							 + "\n3.Sign Out"
+							 + "\n4.View Previous Orders"
 					         + "\n\nChoose your option: "); 			//display options to user
 			choice = userInput(); 										//get the selected option
 
@@ -145,6 +146,18 @@ public class UserInterface {
 				cartO = null;
 				currentUser = "";
 				gotoPage(1); 											//go back to page 1
+			} 
+			else if (choice.equals("4")) { 		
+				File file = new File("ItemsBought.txt");
+				if (file.exists() && !file.isDirectory()) {						
+					BufferedReader reader = new BufferedReader(new FileReader("ItemsBought.txt"));
+					String line;
+					while ((line = reader.readLine()) != null) 
+						System.out.println(line);
+				}
+				else
+					System.out.println("No Previous Items Bought\n");
+				gotoPage(5);											
 			} 
 			
 			else 														//user does not choice a valid option
@@ -595,24 +608,28 @@ public class UserInterface {
 			if (obj instanceof Book) {
 				Book item = (Book) obj;
 				writera.write(item.getInfo());
+				writera.newLine();
 			}
 			else if (obj instanceof Book) {
 				eBook item = (eBook) obj;
 				writerb.write(item.getInfo());
+				writerb.newLine();
 			}
 		}
 		writera.close();
 		writerb.close();
-		writera = new BufferedWriter(new FileWriter("CD.txt"));
+		writera = new BufferedWriter(new FileWriter("CDs.txt"));
 		writerb = new BufferedWriter(new FileWriter("MP3.txt"));
 		for (Audio obj : audioProducts) {
 			if (obj instanceof CD) {
 				CD item = (CD) obj;
 				writera.write(item.getInfo());
+				writera.newLine();
 			}
 			else if (obj instanceof MP3) {
 				MP3 item = (MP3) obj;
 				writerb.write(item.getInfo());
+				writerb.newLine();
 			}
 		}
 		writera.close();
@@ -646,14 +663,14 @@ public class UserInterface {
 		}
 		else {
 			writer = new BufferedWriter(new FileWriter("ItemsBought.txt"));
-			writer.write(String.format("%-20s%-15s%-10s","Confirmation ID", "Product Name","Total"));
+			writer.write(String.format("%-20s%-20s%-10s","Confirmation ID", "Product Name","Total"));
 			writer.newLine();
 			writer.flush();
 		}
 		String[] info;
 		for (String line : cartO.allContent()) {
 			info = line.split(",");
-			writer.write(String.format("%-20s%-15s%-10d","U" + cID, info[1],total));
+			writer.write(String.format("%-20s%-20s%-10d","U" + cID, info[1],total));
 			writer.newLine();
 			writer.flush();
 		}
