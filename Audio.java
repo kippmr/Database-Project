@@ -28,4 +28,11 @@ public class Audio extends Item {
 	public int getPrice() {
 		return this.price;
 	}
+
+	public int getQuant() {
+		return quant;
+	}
+	public int setQuant(int quant) { //however many are bought
+		return (this.quant = quant);
+	}
 }

@@ -420,6 +420,8 @@ public class UserInterface {
 		if (choice.equals(("yes"))) {
 			System.out.println("Comfirmation ID: " + "U" + cID + 
 				"\nItems shipped to: Mr." + currentUser);
+			updateQuant();
+			updateFiles();
 			writeConfirm();
 			cartO.clearCart();
 			cID++;
@@ -545,6 +547,79 @@ public class UserInterface {
 		return total;
 	}
 
+	public void updateQuant() {
+		String[] info;
+		int itemQuant;
+		int cartQuant;
+		for (String line : cartO.allContent()) {
+			info = line.split(",");
+			for(Readable obj : readables) {
+				if (obj.getSerial() == Integer.parseInt(info[0])) {
+					if (obj instanceof Book) {
+						itemQuant = obj.getQuant();
+						cartQuant = Integer.parseInt(info[3]);
+						obj.setQuant(itemQuant - cartQuant);
+					}
+					else if (obj instanceof eBook) {
+						itemQuant = obj.getQuant();
+						cartQuant = Integer.parseInt(info[3]);
+						obj.setQuant(itemQuant - cartQuant);
+					}
+				}
+
+			}
+
+			for (Audio obj : audioProducts) {
+				if (obj.getSerial() == Integer.parseInt(info[0])) {
+					if (obj instanceof CD) {
+						itemQuant = obj.getQuant();
+						cartQuant = Integer.parseInt(info[3]);
+						obj.setQuant(itemQuant - cartQuant);
+					}
+					else if (obj instanceof MP3) {
+						itemQuant = obj.getQuant();
+						cartQuant = Integer.parseInt(info[3]);
+						obj.setQuant(itemQuant - cartQuant);
+					}
+				}
+			}
+			
+		}
+	}
+
+	public void updateFiles() throws IOException{
+		BufferedWriter writera, writerb;
+		writera = new BufferedWriter(new FileWriter("Books.txt"));
+		writerb = new BufferedWriter(new FileWriter("eBooks.txt"));
+		for (Readable obj : readables) {
+			if (obj instanceof Book) {
+				Book item = (Book) obj;
+				writera.write(item.getInfo());
+			}
+			else if (obj instanceof Book) {
+				eBook item = (eBook) obj;
+				writerb.write(item.getInfo());
+			}
+		}
+		writera.close();
+		writerb.close();
+		writera = new BufferedWriter(new FileWriter("CD.txt"));
+		writerb = new BufferedWriter(new FileWriter("MP3.txt"));
+		for (Audio obj : audioProducts) {
+			if (obj instanceof CD) {
+				CD item = (CD) obj;
+				writera.write(item.getInfo());
+			}
+			else if (obj instanceof MP3) {
+				MP3 item = (MP3) obj;
+				writerb.write(item.getInfo());
+			}
+		}
+		writera.close();
+		writerb.close();
+
+	}
+
 	public void getConfirm() throws IOException {
 		File itemsBought = new File("ItemsBought.txt");
 		if(itemsBought.exists() && !itemsBought.isDirectory()) {
@@ -556,7 +631,7 @@ public class UserInterface {
 			}
 			String[] info = temp.split("\\s+");
 			info[0] = info[0].substring(1);
-			cID = Integer.parseInt(info[0]);
+			cID = Integer.parseInt(info[0]) + 1;
 		}
 		else
 			cID = 1000;

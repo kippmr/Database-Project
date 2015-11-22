@@ -28,4 +28,11 @@ public class Readable extends Item {
 	public int getSerial() {
 		return this.sNo;
 	}
+
+	public int getQuant() {
+		return quant;
+	}
+	public int setQuant(int quant) { //however many are bought
+		return (this.quant = quant);
+	}
 }
