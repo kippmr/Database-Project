@@ -20,6 +20,10 @@ public class Audio extends Item {
 		return this.title;
 	}
 
+	public String getArtist() {
+		return this.artistName;
+	}
+
 	public int getSerial() {
 		return this.sNo;
 	}

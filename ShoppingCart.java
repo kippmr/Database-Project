@@ -5,11 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class ShoppingCart extends User {
 
-	protected List<String> content = new ArrayList<String>();
-    protected File cart = null;
-    protected FileWriter writer = null;
-    protected BufferedWriter buffwriter = null;
-	protected BufferedReader buffreader = null;
+	protected List<Item> content = new ArrayList<Item>();
 
 	protected String getDate() {
 		SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -21,87 +17,150 @@ public class ShoppingCart extends User {
 
     public ShoppingCart(String username) throws IOException{
     	super(username);
-    	String cartname = "cart_" + username;
-    	cart = new File(cartname);
-    	
-    	if (cart.exists() && !cart.isDirectory()) 
-    		readContentFile();	
+    }
+
+    public String getCartname() {
+    	return "cart_" + super.getUsername() + ".txt";
     }
 
 	public String getContent() {
 		String items = ""; 
-		for (String item: content) {
-			items += item + "\n";
+		for (Item obj: content) {
+			if (obj instanceof Readable) {
+				Readable item = (Readable) obj;
+				items += item.getSerial() + "," + item.getTitle() + "," + getDate()  + "," +  item.getQuant() + "\n";
+			}
+			else if (obj instanceof Audio) {
+				Audio item = (Audio) obj;
+				items += item.getSerial() + "," + item.getTitle() + "," + getDate()  + "," +  item.getQuant() + "\n";
+			}
 		}
 		return items;
 	}
 
-	public List<String> allContent() {
+	public List<Item> allContent() {
 		return content;
 	}
 	
 	public boolean addItem(Book item, int quantity) {
-		if (quantity <= item.getQuant() && quantity >= 1) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
-			return true;
+		if (itemPresent(item.getSerial())) {
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				Book cItem = (Book) searchFor(item.getSerial());
+				content.remove(cItem);
+				cItem.setQuant(cItem.getQuant() + quantity);
+				content.add(cItem);
+				return true;
+			}
 		}
 		else {
-			return false;
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				String serial = Integer.toString(item.getSerial());
+				String iPrice = Integer.toString(item.price);
+				String iQuant = Integer.toString(quantity);
+				content.add(new Book(serial,item.getTitle(),item.getAuthor(),iPrice,iQuant));
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
+		return false;
+
 	}
 
 	public boolean addItem(eBook item, int quantity) {
-		if (quantity <= item.getQuant() && quantity >= 1) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
-			return true;
+		if (itemPresent(item.getSerial())) {
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				eBook cItem = (eBook) searchFor(item.getSerial());
+				content.remove(cItem);
+				cItem.setQuant(cItem.getQuant() + quantity);
+				content.add(cItem);
+				return true;
+			}
 		}
 		else {
-			return false;
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				String serial = Integer.toString(item.getSerial());
+				String iPrice = Integer.toString(item.price);
+				String iQuant = Integer.toString(quantity);
+				content.add(new eBook(serial,item.getTitle(),item.getAuthor(),iPrice,iQuant));
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
+		return false;
 	}
 
 	public boolean addItem(MP3 item, int quantity) {
-		if (quantity <= item.getQuant() && quantity >= 1) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
-			return true;
+		if (itemPresent(item.getSerial())) {
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				MP3 cItem = (MP3) searchFor(item.getSerial());
+				content.remove(cItem);
+				cItem.setQuant(cItem.getQuant() + quantity);
+				content.add(cItem);
+				return true;
+			}
 		}
 		else {
-			return false;
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				String serial = Integer.toString(item.getSerial());
+				String iPrice = Integer.toString(item.price);
+				String iQuant = Integer.toString(quantity);
+				content.add(new MP3(serial,item.getTitle(),item.getArtist(),iPrice,iQuant));
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
+		return false;
 	}
 
 	public boolean addItem(CD item, int quantity) {
-		if (quantity <= item.getQuant() && quantity >= 1) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
-			return true;
+		if (itemPresent(item.getSerial())) {
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				CD cItem = (CD) searchFor(item.getSerial());
+				content.remove(cItem);
+				cItem.setQuant(cItem.getQuant() + quantity);
+				content.add(cItem);
+				return true;
+			}
 		}
 		else {
-			return false;
+			if (quantity <= item.getQuant() && quantity >= 1) {
+				String serial = Integer.toString(item.getSerial());
+				String iPrice = Integer.toString(item.price);
+				String iQuant = Integer.toString(quantity);
+				content.add(new CD(serial,item.getTitle(),item.getArtist(),iPrice,iQuant));
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
+		return false;
 	}
 
-	private void readContentFile() throws IOException{
-		buffreader = new BufferedReader(new FileReader(cart));
-		String line;
-		while ((line = buffreader.readLine()) != null) {
-        	content.add(line);
-    	}
-    	buffreader.close();
+	public Item searchFor(int serial) {
+		
+		for (Item item: content) 
+			if (item.sNo == serial) 
+				return item;
+		return null;
 	}
 
-	public void writeToFile() throws IOException{
-		writer = new FileWriter(cart);
-    	buffwriter = new BufferedWriter(writer);
-		for (String line: content) {
-			buffwriter.write(line);
-			buffwriter.newLine();
-		}
-		buffwriter.close();
+	public boolean itemPresent(int serial) {
+		for (Item item : content) 
+			if (item.sNo == serial) 
+				return true;
+		return false;
 	}
 
 	//Clear the shopping cart
 	public void clearCart() {
-		this.content = new ArrayList<String>();
+		this.content = new ArrayList<Item>();
 	}
 	
 	

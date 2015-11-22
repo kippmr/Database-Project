@@ -60,6 +60,9 @@ public class UserInterface {
 				p10();
 			} else if (currentPage == 11) {
 				p11();
+			} else if (currentPage == -10) {
+				System.out.println("Exiting...");
+				break;
 			} else { 
 				p1();
 			}
@@ -82,6 +85,7 @@ public class UserInterface {
 
 				userO = new User(currentUser);
 				cartO = new ShoppingCart(currentUser);
+				getCart(cartO);
 
 				gotoPage(3); 								//proceed to page 3
 			} 
@@ -141,7 +145,7 @@ public class UserInterface {
 				gotoPage(7);
 							 											//proceed to page 7
 			else if (choice.equals("3")) { 								//user selects 3
-				cartO.writeToFile();
+				writetoCart();
 				userO = null;
 				cartO = null;
 				currentUser = "";
@@ -389,7 +393,7 @@ public class UserInterface {
 		} while (!validSNo); //while sNo is invalid (or not -1)
 	}
 
-	private void p10( ) throws IOException{
+	private void p10 () throws IOException{
 		//**Page No. 10! User's Billing Info, yes/no comformation and given an ID**//
 		int env = getEnviro();
 		int totalbefore = getAllPrices();
@@ -404,11 +408,17 @@ public class UserInterface {
 		System.out.printf("%-20s%6s%-15s%-5s\n",
 			"Name","","Quantity","Price");
 
-		String[] info;
-		for (String line : cartO.allContent()) {
-			info = line.split(",");
-			System.out.printf("%-20s%6s%-15s%-5d\n",
-			info[1],"",info[3],findPrice(Integer.parseInt(info[0])));
+		for (Item item : cartO.allContent()) {
+			if (item instanceof Readable) {
+				Readable readable = (Readable) item;
+				System.out.printf("%-20s%6s%-15s%-5d\n",
+				readable.getTitle(),"",readable.getQuant(),findPrice(readable.getSerial()));
+			}
+			else if (item instanceof Audio) {
+				Audio audio = (Audio) item;
+				System.out.printf("%-20s%6s%-15s%-5d\n",
+				audio.getTitle(),"",audio.getQuant(),findPrice(audio.getSerial()));
+			}
 		}
 		System.out.println();
 		System.out.printf("%-20s%-6s%15s%-5d\n",
@@ -433,7 +443,6 @@ public class UserInterface {
 		if (choice.equals(("yes"))) {
 			System.out.println("Comfirmation ID: " + "U" + cID + 
 				"\nItems shipped to: Mr." + currentUser);
-			updateQuant();
 			updateFiles();
 			writeConfirm();
 			cartO.clearCart();
@@ -523,18 +532,16 @@ public class UserInterface {
 
 	public int getEnviro() {
 		int enviro = 0;
-		String[] info;
 		Object obj;
-		for (String line : cartO.allContent()) {
-			info = line.split(",");
-			obj = findItem(Integer.parseInt(info[0]));
+		for (Item item : cartO.allContent()) {
+			obj = findItem(item.sNo);
 			if (obj instanceof Book) {
-				Book item = (Book) obj;
-				enviro += item.getTax() * Integer.parseInt(info[3]);
+				Book book = (Book) obj;
+				enviro += book.getTax() * ((Book)item).getQuant();
 			}
 			else if (obj instanceof CD) {
-				CD item = (CD) obj;
-				enviro += item.getTax() * Integer.parseInt(info[3]);
+				CD cd = (CD) obj;
+				enviro += cd.getTax() * ((CD)item).getQuant();
 			}
 		}
 		return enviro;
@@ -542,62 +549,26 @@ public class UserInterface {
 
 	public int getAllPrices() {
 		int total = 0;
-		String[] info;
 		Object obj;
-		for (String line : cartO.allContent()) {
-			info = line.split(",");
-			obj = findItem(Integer.parseInt(info[0]));
+		for (Item item : cartO.allContent()) {
+
+			obj = findItem(item.sNo);
+
 			if (obj instanceof Readable) {
-				Readable item = (Readable) obj;
-				total += item.price * Integer.parseInt(info[3]);
+				Readable readable = (Readable) obj;
+				total += readable.price * ((Readable)item).getQuant();
 			}
 			else if (obj instanceof Audio) {
-				Audio item = (Audio) obj;
-				total += item.price * Integer.parseInt(info[3]);
+				Audio audio = (Audio) obj;
+				total += audio.price * ((Audio)item).getQuant();
 			}
 			
 		}
 		return total;
 	}
 
-	public void updateQuant() {
-		String[] info;
-		int itemQuant;
-		int cartQuant;
-		for (String line : cartO.allContent()) {
-			info = line.split(",");
-			for(Readable obj : readables) {
-				if (obj.getSerial() == Integer.parseInt(info[0])) {
-					if (obj instanceof Book) {
-						itemQuant = obj.getQuant();
-						cartQuant = Integer.parseInt(info[3]);
-						obj.setQuant(itemQuant - cartQuant);
-					}
-					else if (obj instanceof eBook) {
-						itemQuant = obj.getQuant();
-						cartQuant = Integer.parseInt(info[3]);
-						obj.setQuant(itemQuant - cartQuant);
-					}
-				}
-
-			}
-
-			for (Audio obj : audioProducts) {
-				if (obj.getSerial() == Integer.parseInt(info[0])) {
-					if (obj instanceof CD) {
-						itemQuant = obj.getQuant();
-						cartQuant = Integer.parseInt(info[3]);
-						obj.setQuant(itemQuant - cartQuant);
-					}
-					else if (obj instanceof MP3) {
-						itemQuant = obj.getQuant();
-						cartQuant = Integer.parseInt(info[3]);
-						obj.setQuant(itemQuant - cartQuant);
-					}
-				}
-			}
-			
-		}
+	public void updateQuant(int serial, int quantity) {
+		
 	}
 
 	public void updateFiles() throws IOException{
@@ -639,16 +610,20 @@ public class UserInterface {
 
 	public void getConfirm() throws IOException {
 		File itemsBought = new File("ItemsBought.txt");
-		if(itemsBought.exists() && !itemsBought.isDirectory()) {
+		if(itemsBought.exists() && !itemsBought.isDirectory() ) {
 			BufferedReader reader = new BufferedReader(new FileReader("ItemsBought.txt"));
-			String line;
-			String temp = "";
-			while ((line = reader.readLine()) != null) {
-				temp = line;
+			if(reader.readLine() != null) {
+				String line;
+				String temp = "";
+				while ((line = reader.readLine()) != null) {
+					temp = line;
+				}
+				String[] info = temp.split("\\s+");
+				info[0] = info[0].substring(1);
+				cID = Integer.parseInt(info[0]) + 1;
 			}
-			String[] info = temp.split("\\s+");
-			info[0] = info[0].substring(1);
-			cID = Integer.parseInt(info[0]) + 1;
+			else
+				cID = 1000;
 		}
 		else
 			cID = 1000;
@@ -667,15 +642,67 @@ public class UserInterface {
 			writer.newLine();
 			writer.flush();
 		}
-		String[] info;
-		for (String line : cartO.allContent()) {
-			info = line.split(",");
-			writer.write(String.format("%-20s%-20s%-10d","U" + cID, info[1],total));
-			writer.newLine();
-			writer.flush();
+		for (Item obj : cartO.allContent()) {
+			if (obj instanceof Readable) {
+				Readable item = (Readable) obj;
+				writer.write(String.format("%-20s%-20s%-10d","U" + cID, item.getTitle(),total));
+				writer.newLine();
+				writer.flush();
+			}
+			else if (obj instanceof Audio) {
+				Audio item = (Audio) obj;
+				writer.write(String.format("%-20s%-20s%-10d","U" + cID, item.getTitle(),total));
+				writer.newLine();
+				writer.flush();
+			}
 		}
 		writer.close();
 			
+		return;
+	}
+
+	public void getCart (ShoppingCart cart) throws IOException {
+		String cartName = cart.getCartname();
+		File cartFile = new File(cartName);
+		BufferedReader reader;
+		String[] info;
+		Object obj;
+		String line;
+		if (cartFile.exists() && !cartFile.isDirectory()) {
+			reader = new BufferedReader(new FileReader(cartName));
+			while((line = reader.readLine()) != null) {
+				info = line.split(",");
+				obj = findItem(Integer.parseInt(info[0]));
+				if (obj instanceof Book) {
+					Book book = (Book) obj;
+					cart.addItem(book, Integer.parseInt(info[3]));
+				}
+				else if (obj instanceof eBook) {
+					eBook ebook = (eBook) obj;
+					cart.addItem(ebook, Integer.parseInt(info[3]));
+				}
+				else if (obj instanceof CD) {
+					CD cd = (CD) obj;
+					cart.addItem(cd, Integer.parseInt(info[3]));
+				}
+				else if (obj instanceof MP3) {
+					MP3 mp3 = (MP3) obj;
+					cart.addItem(mp3, Integer.parseInt(info[3]));
+				}
+				else {
+					System.out.println("File Tampered With and/or Item Doesn't exist");
+					gotoPage(-10);
+				}
+
+			}
+		}
+	}
+
+	public void writetoCart() throws IOException {
+		String cartname = "cart_" + currentUser + ".txt";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(cartname));
+		writer.write(cartO.getContent());
+		writer.close();
 		return;
 	}
 
@@ -689,6 +716,8 @@ public class UserInterface {
 				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",
 								obj.sNo, obj.title, obj.authorName, obj.price, obj.quant, "eBook");
 	    }
+
+	    return;
 	}
 
 	public void showAudioProducts() throws IOException {

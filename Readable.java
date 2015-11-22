@@ -29,6 +29,10 @@ public class Readable extends Item {
 		return this.sNo;
 	}
 
+	public String getAuthor() {
+		return this.authorName;
+	}
+
 	public int getQuant() {
 		return quant;
 	}
