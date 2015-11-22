@@ -383,33 +383,34 @@ public class UserInterface {
 		int ship = (int) ((double)totalbefore * 0.1);
 		int hst =  (int) ((double)totalbefore * 0.13);
 		int everything = env + ship + hst + totalbefore;
+		total = everything; 
 
 		System.out.println("Billing Information:");
 		System.out.println();
 		//Name | *Percentages* | Quantity | Price
-		System.out.printf("%24s%6s%10s%s\n",
+		System.out.printf("%-20s%6s%-15s%-5s\n",
 			"Name","","Quantity","Price");
 
 		String[] info;
 		for (String line : cartO.allContent()) {
 			info = line.split(",");
-			System.out.printf("%24s%6s%10s%d\n",
+			System.out.printf("%-20s%6s%-15s%-5d\n",
 			info[1],"",info[3],findPrice(Integer.parseInt(info[0])));
 		}
-
-		System.out.printf("%24s%6s%10s%d\n",
+		System.out.println();
+		System.out.printf("%-20s%-6s%15s%-5d\n",
 			"Enviroment Tax","2%","",env);
 
-		System.out.printf("%24s%6s%10s%d\n",
+		System.out.printf("%-20s%-6s%15s%-5d\n\n",
 			"HST","13%","", hst);
 
-		System.out.printf("%24s%6s%10s%d\n",
+		System.out.printf("%-20s%-6s%15s%-5d\n\n",
 			"Shipping","10%","", ship);
 
-		System.out.printf("%24s%6s%10s%s\n",
+		System.out.printf("%-20s%6s%15s%s\n",
 			"","","", "------------");
 
-		System.out.printf("%24s%6s%10s%d\n",
+		System.out.printf("%-20s%6s%15s%-5d\n",
 			"Total:","","", everything);
 
 
@@ -422,6 +423,7 @@ public class UserInterface {
 			writeConfirm();
 			cartO.clearCart();
 			cID++;
+			gotoPage(5);
 		} 
 		else if (choice.equals("no")) {
 			System.out.println("Going back to main menu");
@@ -513,11 +515,11 @@ public class UserInterface {
 			obj = findItem(Integer.parseInt(info[0]));
 			if (obj instanceof Book) {
 				Book item = (Book) obj;
-				enviro += item.getTax();
+				enviro += item.getTax() * Integer.parseInt(info[3]);
 			}
 			else if (obj instanceof CD) {
 				CD item = (CD) obj;
-				enviro += item.getTax();
+				enviro += item.getTax() * Integer.parseInt(info[3]);
 			}
 		}
 		return enviro;
@@ -532,11 +534,11 @@ public class UserInterface {
 			obj = findItem(Integer.parseInt(info[0]));
 			if (obj instanceof Readable) {
 				Readable item = (Readable) obj;
-				total += item.getPrice();
+				total += item.price * Integer.parseInt(info[3]);
 			}
 			else if (obj instanceof Audio) {
 				Audio item = (Audio) obj;
-				total += item.getPrice();
+				total += item.price * Integer.parseInt(info[3]);
 			}
 			
 		}
@@ -548,8 +550,11 @@ public class UserInterface {
 		if(itemsBought.exists() && !itemsBought.isDirectory()) {
 			BufferedReader reader = new BufferedReader(new FileReader("ItemsBought.txt"));
 			String line;
-			while ((line = reader.readLine()) != null) {}
-			String[] info = line.split("\\s+");
+			String temp = "";
+			while ((line = reader.readLine()) != null) {
+				temp = line;
+			}
+			String[] info = temp.split("\\s+");
 			info[0] = info[0].substring(1);
 			cID = Integer.parseInt(info[0]);
 		}
@@ -566,14 +571,18 @@ public class UserInterface {
 		}
 		else {
 			writer = new BufferedWriter(new FileWriter("ItemsBought.txt"));
-			writer.write(String.format("%-15s%-15s%-10s","Confirmation ID", "Product Name","Total"));
+			writer.write(String.format("%-20s%-15s%-10s","Confirmation ID", "Product Name","Total"));
+			writer.newLine();
+			writer.flush();
 		}
 		String[] info;
 		for (String line : cartO.allContent()) {
 			info = line.split(",");
-			writer.write(String.format("%-15s%-15s%-10d","U" + cID, info[1],total));
+			writer.write(String.format("%-20s%-15s%-10d","U" + cID, info[1],total));
+			writer.newLine();
+			writer.flush();
 		}
-			
+		writer.close();
 			
 		return;
 	}
@@ -635,12 +644,12 @@ public class UserInterface {
 	public int findPrice(int serial) {
 		for (Readable obj : readables) 
 			if (obj.sNo == serial) 
-				return obj.getPrice();
+				return obj.price;
 				
 
 		for (Audio obj : audioProducts) 
 			if (obj.sNo == serial) 
-				return obj.getPrice();
+				return obj.price;
 
 		return 0;
 	}

@@ -12,7 +12,7 @@ public class ShoppingCart extends User {
 	protected BufferedReader buffreader = null;
 
 	protected String getDate() {
-		SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyyy");
+		SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		return simpleDate.format(date);
 	}
@@ -42,7 +42,7 @@ public class ShoppingCart extends User {
 	
 	public boolean addItem(Book item, int quantity) {
 		if (quantity <= item.getQuant()) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
 		else {
@@ -52,7 +52,7 @@ public class ShoppingCart extends User {
 
 	public boolean addItem(eBook item, int quantity) {
 		if (quantity <= item.getQuant()) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
 		else {
@@ -62,7 +62,7 @@ public class ShoppingCart extends User {
 
 	public boolean addItem(MP3 item, int quantity) {
 		if (quantity <= item.getQuant()) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
 		else {
@@ -72,7 +72,7 @@ public class ShoppingCart extends User {
 
 	public boolean addItem(CD item, int quantity) {
 		if (quantity <= item.getQuant()) {
-			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + item.getQuant());
+			content.add(item.getSerial() + "," + item.getTitle() + "," + getDate() + "," + quantity);
 			return true;
 		}
 		else {
