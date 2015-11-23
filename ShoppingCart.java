@@ -20,7 +20,7 @@ public class ShoppingCart extends User {
     }
 
     public String getCartname() {
-    	return "cart_" + super.getUsername() + ".txt";
+    	return "cart_" + super.getUsername().toLowerCase() + ".txt";
     }
 
 	public String getContent() {
@@ -38,8 +38,7 @@ public class ShoppingCart extends User {
 			}
 			return items;
 		}
-		else
-			return "Cart is Empty";
+		return "";
 	}
 
 	public List<Item> allContent() {
