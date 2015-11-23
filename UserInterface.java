@@ -14,7 +14,10 @@ public class UserInterface {
 	private String choice 				= "";										//stores user input								
 	
 	private ArrayList<Readable> readables	= new ArrayList<Readable>(); 					//ArrayList for audio
-	private ArrayList<Audio> audioProducts	= new ArrayList<Audio>(); 					//ArrayList for readables
+	private ArrayList<Audio> audioProducts	= new ArrayList<Audio>(); 		
+				//ArrayList for readables
+	private ArrayList<Readable> readablesbuffer	= new ArrayList<Readable>(); 					//ArrayList for audio
+	private ArrayList<Audio> audioProductsbuffer	= new ArrayList<Audio>(); 
 	
 	private ArrayList<String> users 	= new ArrayList<String>(); 					//ArrayList for users
 
@@ -78,7 +81,7 @@ public class UserInterface {
 		
 		if (choice.equals("1")) { 							//the user choices 1
 			System.out.println("Enter your username: "); 	//ask for a username
-			currentUser = userInput(); 						//get the username 
+			currentUser = userInput().toLowerCase(); 						//get the username 
 			
 			//TODO: check if the username is exists, currently doing it through user class
 			if (users.contains(currentUser)) { 				//check if the username exists
@@ -228,7 +231,7 @@ public class UserInterface {
 					quantity = Integer.parseInt(userInput()); 				//get user input for quantity
 
 					if (cartO.addItem(currentItem, quantity)) { 			//check for valid quantity
-
+						subtractQuant(sNo,quantity);
 						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
 						validOption = false; 								//reset for loop
@@ -259,7 +262,7 @@ public class UserInterface {
 					quantity = Integer.parseInt(userInput()); 				//get user input for quantity
 
 					if (cartO.addItem(currentItem, quantity)) {				//check for valid quantity
-
+						subtractQuant(sNo,quantity);
 						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
 						validOption = false; 								//reset for loop
@@ -323,7 +326,7 @@ public class UserInterface {
 
 					//TODO: addItem will also check for quantity
 					if (cartO.addItem(currentItem, quantity)) { //check for valid quantity
-
+						subtractQuant(sNo,quantity);
 						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
 
 						validOption = false; //reset for loop
@@ -359,8 +362,7 @@ public class UserInterface {
 
 					//TODO: addItem will also check for quantity
 					if (cartO.addItem(currentItem, quantity)) { //check for valid quantity
-
-						//TODO: append item to Cart_USERNAME.txt, do it with ShoppingCart.checkQuantity ??
+						subtractQuant(sNo,quantity);
 
 						validOption = false; //reset for loop
 						do { //loop until valid answer is chosen
@@ -443,6 +445,7 @@ public class UserInterface {
 		if (choice.equals(("yes"))) {
 			System.out.println("Comfirmation ID: " + "U" + cID + 
 				"\nItems shipped to: Mr." + currentUser);
+			updateQuant();
 			updateFiles();
 			writeConfirm();
 			cartO.clearCart();
@@ -567,8 +570,63 @@ public class UserInterface {
 		return total;
 	}
 
-	public void updateQuant(int serial, int quantity) {
-		
+	public void subtractQuant(int serial, int quantity) {
+		if(quantity < 1)
+			return;
+		for (Readable readable : readables) {
+			if(readable.getSerial() == serial) {
+				int quant = readable.getQuant() - quantity;
+				readable.setQuant(quant);
+				return;
+			}
+		}
+		for (Audio audio : audioProducts) {
+			if(audio.getSerial() == serial) {
+				int quant = audio.getQuant() - quantity;
+				audio.setQuant(quant);
+				return;
+			}
+		}
+		return;
+	}
+
+	public void updateQuant() {
+		int itemQuant;
+		int cartQuant;
+		for (Item item : cartO.allContent()) {
+
+			for(Readable readable : readablesbuffer) {
+				if (readable.getSerial() == item.sNo) {
+					if (readable instanceof Book) {
+						itemQuant = readable.getQuant();
+						cartQuant = ((Book)item).getQuant();
+						readable.setQuant(itemQuant - cartQuant);
+					}
+					else if (readable instanceof eBook) {
+						itemQuant = readable.getQuant();
+						cartQuant = ((eBook)item).getQuant();
+						readable.setQuant(itemQuant - cartQuant);
+					}
+				}
+
+			}
+
+			for (Audio audio : audioProductsbuffer) {
+				if (audio.getSerial() == item.sNo) {
+					if (audio instanceof CD) {
+						itemQuant = audio.getQuant();
+						cartQuant = ((CD)item).getQuant();
+						audio.setQuant(itemQuant - cartQuant);
+					}
+					else if (audio instanceof MP3) {
+						itemQuant = audio.getQuant();
+						cartQuant = ((MP3)item).getQuant();
+						audio.setQuant(itemQuant - cartQuant);
+					}
+				}
+			}
+			
+		}
 	}
 
 	public void updateFiles() throws IOException{
@@ -645,13 +703,13 @@ public class UserInterface {
 		for (Item obj : cartO.allContent()) {
 			if (obj instanceof Readable) {
 				Readable item = (Readable) obj;
-				writer.write(String.format("%-20s%-20s%-10d","U" + cID, item.getTitle(),total));
+				writer.write(String.format("%-20s%-20s%-10d","U" + cID + " ", item.getTitle() + " ",total));
 				writer.newLine();
 				writer.flush();
 			}
 			else if (obj instanceof Audio) {
 				Audio item = (Audio) obj;
-				writer.write(String.format("%-20s%-20s%-10d","U" + cID, item.getTitle(),total));
+				writer.write(String.format("%-20s%-20s%-10d","U" + cID + " ", item.getTitle() + " ",total));
 				writer.newLine();
 				writer.flush();
 			}
@@ -695,6 +753,8 @@ public class UserInterface {
 				}
 
 			}
+			readablesbuffer = new ArrayList<Readable>(readables);
+			audioProductsbuffer = new ArrayList<Audio>(audioProducts);
 		}
 	}
 
