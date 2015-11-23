@@ -24,18 +24,22 @@ public class ShoppingCart extends User {
     }
 
 	public String getContent() {
-		String items = ""; 
-		for (Item obj: content) {
-			if (obj instanceof Readable) {
-				Readable item = (Readable) obj;
-				items += item.getSerial() + "," + item.getTitle() + "," + getDate()  + "," +  item.getQuant() + "\n";
+		String items = "";
+		if(content.size() > 0) {
+			for (Item obj: content) {
+				if (obj instanceof Readable) {
+					Readable item = (Readable) obj;
+					items += item.getSerial() + "," + item.getTitle() + "," + getDate()  + "," +  item.getQuant() + "\n";
+				}
+				else if (obj instanceof Audio) {
+					Audio item = (Audio) obj;
+					items += item.getSerial() + "," + item.getTitle() + "," + getDate()  + "," +  item.getQuant() + "\n";
+				}
 			}
-			else if (obj instanceof Audio) {
-				Audio item = (Audio) obj;
-				items += item.getSerial() + "," + item.getTitle() + "," + getDate()  + "," +  item.getQuant() + "\n";
-			}
+			return items;
 		}
-		return items;
+		else
+			return "Cart is Empty";
 	}
 
 	public List<Item> allContent() {

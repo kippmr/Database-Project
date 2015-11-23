@@ -1,2 +1,0 @@
-7,Java you are in my heart,ADF,100,4
-8,C++ you are my soul,DEF,150,5
