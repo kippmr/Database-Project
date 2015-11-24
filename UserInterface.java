@@ -127,7 +127,7 @@ public class UserInterface {
 
 	private void p3() {
 		//**Page No. 3! A friendly greeting**//
-		System.out.println("Hello Mr. " + userO.getUsername() + "\n");  //greet the user
+		System.out.println("Hello Mr. " + userO.getUsername().toLowerCase() + "\n");  //greet the user
 		changeCurrentPage(5); 													//proceed to page 5
 	}
 
