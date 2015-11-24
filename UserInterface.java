@@ -703,7 +703,7 @@ public class UserInterface {
 			}
 			reader.close(); // Close the file
 
-			Collections.copy(readablesbuffer,readables); //Set the buffer to be the same as readables
+			copyReadables(); //Set the buffer to be the same as readables
 				
 			return; //Exit
 		} catch (IOException e) { //Exception handling 
@@ -733,7 +733,7 @@ public class UserInterface {
 			}
 			reader.close();	// Close the file
 
-			Collections.copy(audioProductsbuffer,audioProducts);	//Set the buffer to be the same as audio products
+			copyAudioProducts();	//Set the buffer to be the same as audio products
 		} catch (IOException e) { //Exception handling 
 			System.out.println("Error Fetching Audio Products @ getAudioProducts()");	//Inform user of error fetching audio products
 		} finally {	//After catching error
@@ -952,13 +952,13 @@ public class UserInterface {
 			for (Item obj : cartO.allContent()) {	//Iterate through items in user's cart
 				if (obj instanceof Readable) {	//If the item is a readable 
 					Readable item = (Readable) obj;	//Refer to the readable as item
-					writer.write(String.format("%-20s%-30s%-20d","U" + cID + " ", item.getTitle() + " ",total));	//Write the confirmation ID, title of the item, and total cost of the item to file
+					writer.write(String.format("%-20s%-30s%-20d","U" + cID + " ", item.getTitle() + " ",item.price * item.getQuant()));	//Write the confirmation ID, title of the item, and total cost of the item to file
 					writer.newLine();	//Go to next line
 					writer.flush();	//Flush the writer
 				}
 				else if (obj instanceof Audio) {	//if the item is an audio product
 					Audio item = (Audio) obj;	//Refer to the audiuo product as item
-					writer.write(String.format("%-20s%-30s%-20d","U" + cID + " ", item.getTitle() + " ",total));	//Write the confirmation ID, title of the item, and total cost of the item to file
+					writer.write(String.format("%-20s%-30s%-20d","U" + cID + " ", item.getTitle() + " ",item.price * item.getQuant()));	//Write the confirmation ID, title of the item, and total cost of the item to file
 					writer.newLine();	//Go to next line
 					writer.flush();	//Flush the writer
 				}
@@ -1205,6 +1205,30 @@ public class UserInterface {
 					return a1.price - a2.price;	//Return the difference between the two audio product's prices
 				}
 			} );
+		}
+	}
+
+	public void copyReadables() {
+		for (Readable readable: readables) {
+			String sNo = Integer.toString(readable.getSerial());
+			String price = Integer.toString(readable.price);
+			String quant = Integer.toString(readable.getQuant());
+			if(readable instanceof Book)
+				readablesbuffer.add(new Book(sNo, readable.getTitle(), readable.getAuthor(),price,quant));
+			else if (readable instanceof eBook)
+				readablesbuffer.add(new eBook(sNo, readable.getTitle(), readable.getAuthor(),price,quant));
+		}
+	}
+
+	public void copyAudioProducts() {
+		for (Audio audio : audioProducts) {
+			String sNo = Integer.toString(audio.getSerial());
+			String price = Integer.toString(audio.price);
+			String quant = Integer.toString(audio.getQuant());
+			if(audio instanceof CD)
+				audioProductsbuffer.add(new CD(sNo, audio.getTitle(), audio.getArtist(),price,quant));
+			else if (audio instanceof MP3)
+				audioProductsbuffer.add(new MP3(sNo, audio.getTitle(), audio.getArtist(),price,quant));
 		}
 	}
 
