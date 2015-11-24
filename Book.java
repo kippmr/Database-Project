@@ -1,3 +1,10 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: Book object to represent books
+*/
+
 public class Book extends Readable { 																// Book is a subclass of Readable
 	
 	public Book(String sNo, String title, String authorName, String price, String quant){			// Instantition with given serial number, author name, price, and quantity
@@ -21,8 +28,8 @@ public class Book extends Readable { 																// Book is a subclass of Re
 	public int getQuant() {																			// Returns the quantity of the book as a string
 		return quant;																				// Return the quantity of the book
 	}
-	public int setQuant(int quant) { 																// Set the quantity of the book to a given integer															
-		return (this.quant = quant);																// Set the quantity of the book 
+	public void setQuant(int quant) { 																// Set the quantity of the book to a given integer															
+		this.quant = quant;																// Set the quantity of the book 
 	}
 
 

@@ -1,4 +1,9 @@
-//Comma-Separated-File: sNo, title, artistName, price, quantity
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: Parent Class of MP3 and CD
+*/
 public class Audio extends Item { 																	//Audio is a subclass of item
 
 	protected String title, artistName; 															// Title and artist of the audio item
@@ -36,7 +41,7 @@ public class Audio extends Item { 																	//Audio is a subclass of item
 	public int getQuant() {																			// Returns the quantity of the audio item in stock as an int
 		return quant;																				// Return the quantity of the audio item
 	}
-	public int setQuant(int quant) { 																// Sets quantity to the given integer, return the new quantity
-		return (this.quant = quant);																// Sets the quantity to the given value and returns it
+	public void setQuant(int quant) { 															// Set the quantity of the CD to a given integer
+		this.quant = quant;																		// Set the quantity of the CD 
 	}
 }

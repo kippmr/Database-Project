@@ -1,3 +1,11 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: Object class representing Ebook
+*/
+
+
 public class eBook extends Readable { 																//Book is a subclass of Readable
 
 	public eBook(String sNo, String title, String authorName, String price, String quant){			//Instantition with given serial number, author name, price, and quantity

@@ -1,3 +1,11 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: This is the Shopping Cart, used as container
+for items the user might want to buy
+*/
+
 import java.util.*;	// Additional methods
 import java.io.*;	// Working with input and output																															
 import java.text.SimpleDateFormat; // Formattting date for the shopping cart
@@ -11,8 +19,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 		SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy"); // Set format
 		Date date = new Date(); // Get date
 		return simpleDate.format(date); // Return formatted date 
-
-    //TODO: safely preserve file to be written incase of accidental termination
+	}
 
     public ShoppingCart(String username) throws IOException{ // Instantiation with given username as a string
     	super(username); // Call users instantiation methhod to set member variables for the shopping cart
@@ -46,7 +53,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 	
 	public boolean addItem(Book item, int quantity) { // Adds a given quantity of the given book to the cart, returns true if the book was added, false otherwise
 		if (itemPresent(item.getSerial())) { // Checks if some of the given book is already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				Book cItem = (Book) searchFor(item.getSerial()); // Find the book already in the cart
 				content.remove(cItem); // Remove the existing book from the cart
 				cItem.setQuant(cItem.getQuant() + quantity); // Set the quantity to the total quantity 
@@ -55,7 +62,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 			}
 		}
 		else { // If the book is not already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				String serial = Integer.toString(item.getSerial()); // Get the serial number of the book
 				String iPrice = Integer.toString(item.price); // Get the price of the book
 				String iQuant = Integer.toString(quantity); // Get the quantity of the book
@@ -72,7 +79,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 
 	public boolean addItem(eBook item, int quantity) { // Adds a given quantity of the given ebook to the cart, returns true if the ebook was added, false otherwise
 		if (itemPresent(item.getSerial())) { // Checks if some of the given ebook is already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				eBook cItem = (eBook) searchFor(item.getSerial()); // Find the ebook already in the cart
 				content.remove(cItem); // Remove the existing ebook from the cart
 				cItem.setQuant(cItem.getQuant() + quantity); // Set the quantity to the total quantity 
@@ -81,7 +88,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 			}
 		}
 		else { // If the ebook is not already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				String serial = Integer.toString(item.getSerial()); // Get the serial number of the ebook
 				String iPrice = Integer.toString(item.price); // Get the price of the ebook
 				String iQuant = Integer.toString(quantity); // Get the quantity of the ebook
@@ -97,7 +104,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 
 	public boolean addItem(MP3 item, int quantity) { // Adds a given quantity of the given MP3 to the cart, returns true if the MP3 was added, false otherwise
 		if (itemPresent(item.getSerial())) { // Checks if some of the given MP3 is already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				MP3 cItem = (MP3) searchFor(item.getSerial()); // Find the MP3 already in the cart
 				content.remove(cItem); // Remove the existing MP3 from the cart
 				cItem.setQuant(cItem.getQuant() + quantity); // Set the quantity to the total quantity 
@@ -106,7 +113,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 			}
 		}
 		else { // If the MP3 is not already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				String serial = Integer.toString(item.getSerial()); // Get the serial number of the MP3
 				String iPrice = Integer.toString(item.price); // Get the price of the MP3
 				String iQuant = Integer.toString(quantity); // Get the quantity of the MP3
@@ -122,7 +129,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 
 	public boolean addItem(CD item, int quantity) { // Adds a given quantity of the given CD to the cart, returns true if the CD was added, false otherwise
 		if (itemPresent(item.getSerial())) { // Checks if some of the given CD is already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				CD cItem = (CD) searchFor(item.getSerial()); // Find the CD already in the cart
 				content.remove(cItem); // Remove the existing CD from the cart
 				cItem.setQuant(cItem.getQuant() + quantity); // Set the quantity to the total quantity 
@@ -131,7 +138,7 @@ public class ShoppingCart extends User { // Shopping cart for the user
 			}
 		}
 		else { // If the CD is not already in the cart
-			if (quantity <= item.getQuant() && quantity >= 1) { // Checks if the requested quantity is valid
+			if (quantity <= item.getQuant() && quantity >= 1 && item.getQuant() > 0) { // Checks if the requested quantity is valid
 				String serial = Integer.toString(item.getSerial()); // Get the serial number of the CD
 				String iPrice = Integer.toString(item.price); // Get the price of the CD
 				String iQuant = Integer.toString(quantity); // Get the quantity of the CD

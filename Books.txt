@@ -1,2 +1,0 @@
-3,Java Rocks,XYZ,150,8
-4,Python Sucks,YYZ,200,20

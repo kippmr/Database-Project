@@ -1,3 +1,11 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: This is the Shopping Cart, used as container
+for items the user might want to buy
+*/
+
 import java.io.*; // Working with input and output
 
 public class User { // User can interact with the userinterface, purchase items etc.

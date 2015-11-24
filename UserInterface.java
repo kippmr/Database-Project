@@ -1,3 +1,10 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: This is the user interface for the program
+*/
+
 import java.io.*; // Working with input and output
 import java.lang.*; // More methods
 import java.util.*; // More methods
@@ -264,7 +271,7 @@ public class UserInterface {
 				sortByPriceR(readables);								//Sort the readables by their price, lowest to highest 
 		}
 
-		System.out.printf("\nReadables\n\n%-5s%-25s%-10s%-10s%-20s%-5s",				//formatting for displaying readables
+		System.out.printf("\nReadables\n\n%-8s %-25s %-8s %-10s %-8s %-5s",				//formatting for displaying readables
 				"S.No","Name of Book","Author","Price($)","Quantity in Store","Type"); 	//display readables
 		showReadables(); 																//call show readables function
 		System.out.println();
@@ -299,7 +306,7 @@ public class UserInterface {
 						validOption = false; 											//reset for loop
 						do { 				 											//loop until valid answer is chosen
 							System.out.println("Press -2 to Continue Shopping" +
-												"or Press 0 to CheckOut: "); 			//display options to user
+												" or Press 0 to CheckOut: "); 			//display options to user
 							choice = userInput(); 										//get user input
 
 							if (choice.equals("-2")) { 									//user choices option -2
@@ -331,7 +338,7 @@ public class UserInterface {
 						validOption = false; 											//reset for loop
 						do { 															//loop until valid answer is chosen
 							System.out.println("Press -2 to Continue Shopping" + 
-												"or Press 0 to CheckOut: "); 			//display options to user
+												" or Press 0 to CheckOut: "); 			//display options to user
 							choice = userInput(); 										//get user input
 
 							if (choice.equals("-2")) { 									//user choices option -2
@@ -374,7 +381,7 @@ public class UserInterface {
 				sortByPriceA(audioProducts);							//Sort the audio products by their price, lowest to highest 
 		}
 
-		System.out.printf("Audio:\n\n%-5s%-25s%-10s%-10s%-20s%-5s",						//Formatting for displaying audio
+		System.out.printf("Audio:\n\n%-8s %-25s %-8s %-10s %-18s %-5s",						//Formatting for displaying audio
 				          "S.No","Name","Artist","Price($)","Quantity in Store","Type"); //display audio products
 		showAudioProducts(); 															//call show audioproducts function
 		System.out.println();
@@ -408,7 +415,7 @@ public class UserInterface {
 						validOption = false; 											//reset for loop
 						do { 															//loop until valid answer is chosen
 							System.out.println("Press -2 to Continue Shopping" + 
-												"or Press 0 to CheckOut: "); 			//display options to user
+												" or Press 0 to CheckOut: "); 			//display options to user
 							choice = userInput(); 										//get user input
 
 							if (choice.equals("-2")) { 									//user choices option -2
@@ -443,7 +450,7 @@ public class UserInterface {
 						validOption = false; 											//reset for loop
 						do { 															//loop until valid answer is chosen
 							System.out.println("Press -2 to Continue Shopping" + 
-												"or Press 0 to CheckOut: "); 			//display options to user
+												" or Press 0 to CheckOut: "); 			//display options to user
 							choice = userInput(); 										//get user input
 
 							if (choice.equals("-2")) { 									//user choices option -2
@@ -688,7 +695,7 @@ public class UserInterface {
 			}
 			reader.close(); // Close the file
 
-			reader = new BufferedReader(new FileReader("EBooks.txt")); //Read from EBooks.txt
+			reader = new BufferedReader(new FileReader("eBooks.txt")); //Read from EBooks.txt
 
 			while ((line = reader.readLine()) != null) { //Read to the end of the file
 				String[] entry = line.split(",");	//Split the lines at commas, split into [sNo, title, author, price, quantity] 
@@ -696,7 +703,7 @@ public class UserInterface {
 			}
 			reader.close(); // Close the file
 
-			readablesbuffer = new ArrayList<Readable>(readables); //Set the buffer to be the same as readables
+			Collections.copy(readablesbuffer,readables); //Set the buffer to be the same as readables
 				
 			return; //Exit
 		} catch (IOException e) { //Exception handling 
@@ -726,7 +733,7 @@ public class UserInterface {
 			}
 			reader.close();	// Close the file
 
-			audioProductsbuffer = new ArrayList<Audio>(audioProducts);	//Set the buffer to be the same as audio products
+			Collections.copy(audioProductsbuffer,audioProducts);	//Set the buffer to be the same as audio products
 		} catch (IOException e) { //Exception handling 
 			System.out.println("Error Fetching Audio Products @ getAudioProducts()");	//Inform user of error fetching audio products
 		} finally {	//After catching error
@@ -861,7 +868,7 @@ public class UserInterface {
 		BufferedWriter writera, writerb;	//For writing to files
 		try {	//Catch errors
 			writera = new BufferedWriter(new FileWriter("Books.txt"));	//Write to Books.txt
-			writerb = new BufferedWriter(new FileWriter("EBooks.txt"));	//Write to eBooks.txt
+			writerb = new BufferedWriter(new FileWriter("eBooks.txt"));	//Write to eBooks.txt
 			for (Readable obj : readablesbuffer) {	//Iterate through items in readables buffer array
 				if (obj instanceof Book) {	//If the item is a book
 					Book item = (Book) obj; //Refer to the book as item
@@ -1031,10 +1038,10 @@ public class UserInterface {
 		//Print a formatted string listing info on all objects in readables array to stdout 
 	    for(Readable obj: readables) {	//Iterate through all items in readables arrays
 	    	if(obj instanceof Book)	//If the item is a book
-				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",	//Formatting for item info
+				System.out.printf("\n%-8d %-25s %-8s %-10d %-18d %-5s",	//Formatting for item info
 								obj.sNo, obj.title, obj.authorName, obj.price, obj.quant, "Book"); //Print the info for the item
 			else if (obj instanceof eBook)	//If the item is an ebook
-				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",	//Formatting for item info
+				System.out.printf("\n%-8d %-25s %-8s %-10d %-18d %-5s",	//Formatting for item info
 								obj.sNo, obj.title, obj.authorName, obj.price, obj.quant, "eBook");	//Print the info for the item
 	    }
 
@@ -1045,10 +1052,10 @@ public class UserInterface {
 		//Print a formatted string listing info on all items in the Audio products array to stdout
 	    for(Audio obj: audioProducts) { //Iterate through all items in audiProducts array
 	    	if (obj instanceof MP3) //If the item is an MP3
-				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",	//Formatting for item info
+				System.out.printf("\n%-8d %-25s %-8s %-10d %-18d %-5s",	//Formatting for item info
 								obj.sNo, obj.title, obj.artistName, obj.price, obj.quant, "MP3");	//Print the info for the item
 			else if (obj instanceof CD) //If the item is a CD
-				System.out.printf("\n%-5d%-25s%-10s%-10d%-20d%-5s",	//Formatting for item info
+				System.out.printf("\n%-8d %-25s %-8s %-10d %-18d %-5s",	//Formatting for item info
 								obj.sNo, obj.title, obj.artistName, obj.price, obj.quant, "CD");	//Print the info for the item
 	    }
 	}

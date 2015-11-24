@@ -1,3 +1,10 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: Parent class of book and ebook
+*/
+
 //Comma-Separated-File: sNo, title, authorName, price, quantity
 public class Readable extends Item {																	// Readable is a subclass of item
 
@@ -36,7 +43,8 @@ public class Readable extends Item {																	// Readable is a subclass o
 	public int getQuant() {																				// Returns the quantity of the readable item in stock as an int
 		return quant;																					// Return the quantity of the readable item
 	} 
-	public int setQuant(int quant) { 																	// Sets quantity of readable item to the given integer, return the new quantity
-		return (this.quant = quant);																	// Sets the quantity of the readable item to the given value and returns it
+	public void setQuant(int quant) { 															// Set the quantity of the CD to a given integer
+		this.quant = quant;																		// Set the quantity of the CD 
 	}
+
 }

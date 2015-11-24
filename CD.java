@@ -1,3 +1,9 @@
+/* 
+*Names: Yu You, Matthew Kipp, Sean McKay
+*MacIDs: youy2, mckaysm, kippmr
+*Student Number: 1419572 (Yu), 1423885 (Sean), 1303604 (Matt)
+*Description: Object class representing CD
+*/
 public class CD extends Audio {																	// CD is a subclass of Audio
 			
 

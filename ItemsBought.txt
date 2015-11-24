@@ -1,3 +1,6 @@
 Confirmation ID     Product Name   Total     
 U1000               Java you are in my heart125       
 U1001               FTHD                24        
+U1002               Python Sucks                  1250                
+U1003               Java Rocks                    375                 
+U1004               Java Rocks                    375                 
