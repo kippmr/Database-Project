@@ -1,50 +1,50 @@
-import java.io.*;
+import java.io.*; // Working with input and output
 
-public class User {
-	private String username;
-	private boolean admin;
-	private String password;
+public class User { // User can interact with the userinterface, purchase items etc.
+	private String username; // username for the user
+	private boolean admin; // Whether or not the user is an admin
+	private String password; // password for admin, by default is ADMIN
 
-	public User(String uName) { //maybe check for valid user inside of constructor 
-		this.username = uName;
-		this.admin = false;
+	public User(String uName) { // Instantiation with given username 
+		this.username = uName; // Set the user's username to the given username
+		this.admin = false; // by default, user is not an admin
 	}
 
-	public User(String uName, boolean admin) {
-		this.username = uName;
-		this.admin = admin;
-		try {fetchPassword();}
-		catch (IOException e) {e.printStackTrace();}
+	public User(String uName, boolean admin) { // Instantiation for admins with given username
+		this.username = uName; // Set user's username to the given username
+		this.admin = admin; // Set the admin property to true if the user is an admin
+		try {fetchPassword();} // Attempt to get the admin password, if it exists
+		catch (IOException e) {e.printStackTrace();} // Handle exception if password file does not exist
 	}
 	
 	//Returns username of user
-	public String getUsername() { 
-		return this.username;
+	public String getUsername() {  // Retuns the username of user as a string
+		return this.username; // Return the username
 	}
 
-	public String getPassword() {
-		return this.password;
+	public String getPassword() { // Returns the password of user as a string
+		return this.password; // Return the password
 	}
 
-	private void fetchPassword() throws IOException {
-		File pw = new File("password.txt");
-		BufferedReader reader;
-		if(pw.exists() && !pw.isDirectory()) {
-			reader = new BufferedReader(new FileReader("password.txt"));
-			this.password = reader.readLine();
-			reader.close();
+	private void fetchPassword() throws IOException { // Sets password field to the password stored in password.txt, if it exists. Otherwise sets it to "ADMIN" 
+		File pw = new File("password.txt"); // Create file object
+		BufferedReader reader; // To read from the file
+		if(pw.exists() && !pw.isDirectory()) { // If the password file already exists
+			reader = new BufferedReader(new FileReader("password.txt")); // Read from the password file
+			this.password = reader.readLine(); // Read the password from the file
+			reader.close(); // Close the file
 		}
-		else {
-			this.password = "ADMIN";
-			writePassword(this.password);
+		else { // If the password file does not exist
+			this.password = "ADMIN"; // Sets the password to "ADMIN"
+			writePassword(this.password); // Writes the password to the password file
 		}
-		return;
+		return; // exit
 	}
 
-	public void writePassword(String pw) throws IOException {
-		BufferedWriter writer = new BufferedWriter(new FileWriter("password.txt"));
-		writer.write(pw);
-		writer.close();
-		return;
+	public void writePassword(String pw) throws IOException { // Creates a file "password.txt" and writes the given password string pw to it
+		BufferedWriter writer = new BufferedWriter(new FileWriter("password.txt")); // To write to the file
+		writer.write(pw); // Write the password to the file
+		writer.close(); // Close the file
+		return; // Exit
 	}
 }
